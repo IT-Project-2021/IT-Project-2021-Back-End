@@ -1,7 +1,7 @@
 {
-  "name": "swagger-petstore",
-  "version": "1.0.0",
-  "description": "This is a sample Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/). ",
+  "name": "my-daily-planner-api",
+  "version": "0.0.1",
+  "description": "This is the My Daily Planner API documentation. ",
   "main": "index.js",
   "scripts": {
 	"prestart": "npm install",
