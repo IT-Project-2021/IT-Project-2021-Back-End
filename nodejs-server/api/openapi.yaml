@@ -16,6 +16,8 @@ paths:
       x-swagger-router-controller: Default
 components:
   schemas:
+    Test:
+      type: object
     People:
       type: object
       properties:
