@@ -19,7 +19,7 @@ const PersonSchema = new mongoose.Schema({
     email: {
         type: String
     }
-})
+});
 
 /**
  * Statics
@@ -37,7 +37,7 @@ PersonSchema.statics = {
                 if (person) {
                     return person;
                 }
-                const err = new APIError('No sucher person exists!', httpStatus.NOT_FOUND);
+                const err = new APIError('No such person exists!', httpStatus.NOT_FOUND);
                 return Promise.reject(err);
             });
     },
