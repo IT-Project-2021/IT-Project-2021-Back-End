@@ -33,3 +33,6 @@ The documentation for the API can be accessed locally inside this repository:
 * Access the documentation server at http://localhost:8080
 
 Note that the local server needs to also be running in order for the example querying to work.
+
+## Testing
+Testing has been implemented and can be easily run with: `yarn test`
