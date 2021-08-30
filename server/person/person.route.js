@@ -4,7 +4,7 @@ const personCtrl = require('./person.controller');
 const router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/')
-  /** GET /api/people - Get list of people */
+  /** GET /api/people - Get list of all people */
   .get(personCtrl.list)
 
   /** POST /api/people - Create new person */

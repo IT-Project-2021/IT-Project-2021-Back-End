@@ -99,10 +99,10 @@ describe('## Person APIs', () => {
           done();
         })
         .catch(done);
-    }).timeout(15000);
+    });
   });
 
-  describe('# DELETE /api/people/', () => {
+  describe('# DELETE /api/people/:personId', () => {
     it('should delete person', (done) => {
       request(app)
         .delete('/api/people/${person._id}')
