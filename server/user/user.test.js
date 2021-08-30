@@ -53,7 +53,7 @@ describe('## User APIs', () => {
         .catch(done);
     });
 
-    it('should report error with message - Not found, when user does not exists', (done) => {
+    it('should report error with message - Not found, when user does not exist', (done) => {
       request(app)
         .get('/api/users/56c787ccc67fc16ccc1a5e92')
         .expect(httpStatus.NOT_FOUND)
