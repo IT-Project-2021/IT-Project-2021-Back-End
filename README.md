@@ -23,3 +23,13 @@ From here the local development environment should be set up.
 ### Running server locally
 * Run the server: `yarn start`
 * Access the server at http://localhost:4040
+
+## API Documentation
+The documentation for the API can be accessed locally inside this repository:
+
+* cd into the documentation folder: `cd documentation`
+* Run the documentation server: `yarn start`
+  * Dependencies may need to be installed at first use: `yarn`
+* Access the documentation server at http://localhost:8080
+
+Note that the local server needs to also be running in order for the example querying to work.
