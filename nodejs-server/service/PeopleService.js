@@ -10,10 +10,10 @@ exports.peopleGET = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "last_name" : "last_name",
-  "phone_num" : "phone_num",
-  "first_name" : "first_name",
-  "email" : "email"
+  "first_name" : "John",
+  "last_name" : "Doe",
+  "phone_num" : "01189998819991197253",
+  "email" : "johndoe@gmail.com"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -27,17 +27,17 @@ exports.peopleGET = function() {
 /**
  * Create new person
  *
- * person Person 
+ * body Person 
  * returns Person
  **/
-exports.peoplePOST = function(person) {
+exports.peoplePOST = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "last_name" : "last_name",
-  "phone_num" : "phone_num",
-  "first_name" : "first_name",
-  "email" : "email"
+  "first_name" : "John",
+  "last_name" : "Doe",
+  "phone_num" : "01189998819991197253",
+  "email" : "johndoe@gmail.com"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -58,10 +58,10 @@ exports.peoplePersonIdDELETE = function(personId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "last_name" : "last_name",
-  "phone_num" : "phone_num",
-  "first_name" : "first_name",
-  "email" : "email"
+  "first_name" : "John",
+  "last_name" : "Doe",
+  "phone_num" : "01189998819991197253",
+  "email" : "johndoe@gmail.com"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -82,10 +82,10 @@ exports.peoplePersonIdGET = function(personId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "last_name" : "last_name",
-  "phone_num" : "phone_num",
-  "first_name" : "first_name",
-  "email" : "email"
+  "first_name" : "John",
+  "last_name" : "Doe",
+  "phone_num" : "01189998819991197253",
+  "email" : "johndoe@gmail.com"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -99,18 +99,18 @@ exports.peoplePersonIdGET = function(personId) {
 /**
  * Update person
  *
+ * body Person 
  * personId String 
- * person Person 
  * returns Person
  **/
-exports.peoplePersonIdPUT = function(personId,person) {
+exports.peoplePersonIdPUT = function(body,personId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "last_name" : "last_name",
-  "phone_num" : "phone_num",
-  "first_name" : "first_name",
-  "email" : "email"
+  "first_name" : "John",
+  "last_name" : "Doe",
+  "phone_num" : "01189998819991197253",
+  "email" : "johndoe@gmail.com"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

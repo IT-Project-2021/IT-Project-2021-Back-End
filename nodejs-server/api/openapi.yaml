@@ -29,19 +29,12 @@ paths:
       - people
       summary: Create new person
       operationId: peoplePOST
-      parameters:
-      - name: person
-        in: query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
         required: true
-        style: form
-        explode: true
-        schema:
-          $ref: '#/components/schemas/Person'
-        example:
-          first_name: John
-          last_name: Doe
-          phone_num: "01189998819991197253"
-          email: johndoe@gmail.com
       responses:
         "200":
           description: OK
@@ -91,18 +84,12 @@ paths:
         schema:
           type: string
         example: 6123827fd394f951583f0578
-      - name: person
-        in: query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
         required: true
-        style: form
-        explode: true
-        schema:
-          $ref: '#/components/schemas/Person'
-        example:
-          first_name: John
-          last_name: Smith
-          phone_num: "01189998819991197253"
-          email: johnsmith@gmail.com
       responses:
         "200":
           description: OK
@@ -144,16 +131,20 @@ components:
       properties:
         first_name:
           type: string
+          example: John
         last_name:
           type: string
+          example: Doe
         phone_num:
           type: string
+          example: "01189998819991197253"
         email:
           type: string
+          example: johndoe@gmail.com
       example:
-        last_name: last_name
-        phone_num: phone_num
-        first_name: first_name
-        email: email
+        first_name: John
+        last_name: Doe
+        phone_num: "01189998819991197253"
+        email: johndoe@gmail.com
       xml:
         name: People
