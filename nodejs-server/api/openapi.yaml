@@ -5,20 +5,141 @@ info:
     This is the My Daily Planner API documentation.
   version: 0.0.1
 servers:
-- url: /
+- url: http://localhost:4040/api
+  description: Production server (uses live data)
 paths:
-  /test:
+  /people:
     get:
-      operationId: testGET
+      tags:
+      - people
+      summary: Get a list of all people
+      operationId: peopleGET
       responses:
         "200":
           description: OK
-      x-swagger-router-controller: Default
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "5XX":
+          description: Unexpected error.
+      x-swagger-router-controller: People
+    post:
+      tags:
+      - people
+      summary: Create new person
+      operationId: peoplePOST
+      parameters:
+      - name: person
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/Person'
+        example:
+          first_name: John
+          last_name: Doe
+          phone_num: "01189998819991197253"
+          email: johndoe@gmail.com
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "5XX":
+          description: Unexpected error.
+      x-swagger-router-controller: People
+  /people/{personId}:
+    get:
+      tags:
+      - people
+      summary: Get person
+      operationId: peoplePersonIdGET
+      parameters:
+      - name: personId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 6123785eec27a723da40feae
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "5XX":
+          description: Unexpected error.
+      x-swagger-router-controller: People
+    put:
+      tags:
+      - people
+      summary: Update person
+      operationId: peoplePersonIdPUT
+      parameters:
+      - name: personId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 6123827fd394f951583f0578
+      - name: person
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/Person'
+        example:
+          first_name: John
+          last_name: Smith
+          phone_num: "01189998819991197253"
+          email: johnsmith@gmail.com
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "5XX":
+          description: Unexpected error.
+      x-swagger-router-controller: People
+    delete:
+      tags:
+      - people
+      summary: Delete person
+      operationId: peoplePersonIdDELETE
+      parameters:
+      - name: personId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 6123827fd394f951583f0578
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "5XX":
+          description: Unexpected error.
+      x-swagger-router-controller: People
 components:
   schemas:
-    Test:
-      type: object
-    People:
+    Person:
       type: object
       properties:
         first_name:
@@ -29,14 +150,10 @@ components:
           type: string
         email:
           type: string
+      example:
+        last_name: last_name
+        phone_num: phone_num
+        first_name: first_name
+        email: email
       xml:
         name: People
-    APIError:
-      type: object
-      properties:
-        message:
-          type: string
-        status:
-          type: number
-        isPublic:
-          type: boolean
