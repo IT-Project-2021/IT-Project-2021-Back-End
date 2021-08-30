@@ -13,8 +13,8 @@ module.exports.peopleGET = function peopleGET (req, res, next) {
     });
 };
 
-module.exports.peoplePOST = function peoplePOST (req, res, next, person) {
-  People.peoplePOST(person)
+module.exports.peoplePOST = function peoplePOST (req, res, next, body) {
+  People.peoplePOST(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -43,8 +43,8 @@ module.exports.peoplePersonIdGET = function peoplePersonIdGET (req, res, next, p
     });
 };
 
-module.exports.peoplePersonIdPUT = function peoplePersonIdPUT (req, res, next, personId, person) {
-  People.peoplePersonIdPUT(personId, person)
+module.exports.peoplePersonIdPUT = function peoplePersonIdPUT (req, res, next, body, personId) {
+  People.peoplePersonIdPUT(body, personId)
     .then(function (response) {
       utils.writeJson(res, response);
     })
