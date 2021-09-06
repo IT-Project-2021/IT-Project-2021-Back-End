@@ -8,11 +8,152 @@ servers:
 - url: http://localhost:4040/api
   description: Local development server
 paths:
+  /users:
+    get:
+      tags:
+      - users
+      summary: Get list of users
+      operationId: getUsers
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          links:
+            getUserId:
+              $ref: '#/components/links/getUserId'
+            putUserId:
+              $ref: '#/components/links/putUserId'
+            deleteUserId:
+              $ref: '#/components/links/deleteUserId'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Users
+    post:
+      tags:
+      - users
+      summary: Create new user
+      operationId: PostUsers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Users
+  /users/{userId}:
+    get:
+      tags:
+      - users
+      summary: Get user
+      operationId: getUserId
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 6123778d576d702575e97590
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Users
+    put:
+      tags:
+      - users
+      summary: Update user
+      operationId: putUserId
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 6123778d576d702575e97590
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Users
+    delete:
+      tags:
+      - users
+      summary: Delete user
+      operationId: deleteUserId
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 6123778d576d702575e97590
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Users
   /people:
     get:
       tags:
       - people
-      summary: Get a list of all people
+      summary: Get list of users
       operationId: getPeople
       responses:
         "200":
@@ -244,6 +385,28 @@ paths:
       x-swagger-router-controller: Auth
 components:
   schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 6123778d576d702575e97590
+        username:
+          type: string
+          example: johndoe
+        mobileNumber:
+          type: string
+          example: "01189998819991197253"
+        createdAt:
+          type: string
+          example: 2021-09-06T08:04:37.137Z
+      example:
+        _id: 6123778d576d702575e97590
+        username: johndoe
+        mobileNumber: "01189998819991197253"
+        createdAt: 2021-09-06T08:04:37.137Z
+      xml:
+        name: Users
     Person:
       type: object
       properties:
@@ -343,24 +506,42 @@ components:
       scheme: bearer
       bearerFormat: JWT
   links:
+    getUserId:
+      operationId: getUserId
+      parameters:
+        userId: $response.body#/_id
+      description: "The '_id' value returned in the response can be used as the 'userId'\
+        \ parameter in 'GET /users/{userId}'."
+    putUserId:
+      operationId: putUserId
+      parameters:
+        userId: $response.body#/_id
+      description: "The '_id' value returned in the response can be used as the 'userId'\
+        \ parameter in 'PUT /users/{userId}'."
+    deleteUserId:
+      operationId: deleteUserId
+      parameters:
+        userId: $response.body#/_id
+      description: "The '_id' value returned in the response can be used as the 'userId'\
+        \ paramater in 'DELETE /users/{userId}'."
     getPersonId:
       operationId: getPersonId
       parameters:
         personId: $response.body#/_id
-      description: "The 'personId' value returned in the response can be used as the\
-        \ 'personId' parameter in 'GET /people/{personId}'."
+      description: "The '_id' value returned in the response can be used as the 'personId'\
+        \ parameter in 'GET /people/{personId}'."
     putPersonId:
       operationId: putPersonId
       parameters:
         personId: $response.body#/_id
-      description: "The 'personId' value returned in the response can be used as the\
-        \ 'personId' parameter in 'PUT /people/{personId}'."
+      description: "The '_id' value returned in the response can be used as the 'personId'\
+        \ parameter in 'PUT /people/{personId}'."
     deletePersonId:
       operationId: deletePersonId
       parameters:
         personId: $response.body#/_id
-      description: "The 'personId' value returned in the response can be used as the\
-        \ 'personId' paramater in 'DELETE /people/{personId}'."
+      description: "The '_id' value returned in the response can be used as the 'personId'\
+        \ paramater in 'DELETE /people/{personId}'."
     getRandom-Number:
       operationId: getRandom-Number
       description: The 'token' value returned in the response can be used as the authorization

@@ -2,20 +2,43 @@
 
 
 /**
- * Delete person
+ * Delete user
  *
- * personId String 
- * returns Person
+ * userId String 
+ * returns User
  **/
-exports.deletePersonId = function(personId) {
+exports.deleteUserId = function(userId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "_id" : "a;slkdnv923r23",
-  "first_name" : "John",
-  "last_name" : "Doe",
-  "phone_num" : "01189998819991197253",
-  "email" : "johndoe@gmail.com"
+  "_id" : "6123778d576d702575e97590",
+  "username" : "johndoe",
+  "mobileNumber" : "01189998819991197253",
+  "createdAt" : "2021-09-06T08:04:37.137Z"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
+}
+
+
+/**
+ * Get user
+ *
+ * userId String 
+ * returns User
+ **/
+exports.getUserId = function(userId) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "_id" : "6123778d576d702575e97590",
+  "username" : "johndoe",
+  "mobileNumber" : "01189998819991197253",
+  "createdAt" : "2021-09-06T08:04:37.137Z"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -29,17 +52,16 @@ exports.deletePersonId = function(personId) {
 /**
  * Get list of users
  *
- * returns Person
+ * returns User
  **/
-exports.getPeople = function() {
+exports.getUsers = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "_id" : "a;slkdnv923r23",
-  "first_name" : "John",
-  "last_name" : "Doe",
-  "phone_num" : "01189998819991197253",
-  "email" : "johndoe@gmail.com"
+  "_id" : "6123778d576d702575e97590",
+  "username" : "johndoe",
+  "mobileNumber" : "01189998819991197253",
+  "createdAt" : "2021-09-06T08:04:37.137Z"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -51,20 +73,19 @@ exports.getPeople = function() {
 
 
 /**
- * Get person
+ * Create new user
  *
- * personId String 
- * returns Person
+ * body User  (optional)
+ * returns User
  **/
-exports.getPersonId = function(personId) {
+exports.postUsers = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "_id" : "a;slkdnv923r23",
-  "first_name" : "John",
-  "last_name" : "Doe",
-  "phone_num" : "01189998819991197253",
-  "email" : "johndoe@gmail.com"
+  "_id" : "6123778d576d702575e97590",
+  "username" : "johndoe",
+  "mobileNumber" : "01189998819991197253",
+  "createdAt" : "2021-09-06T08:04:37.137Z"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -76,46 +97,20 @@ exports.getPersonId = function(personId) {
 
 
 /**
- * Create new person
+ * Update user
  *
- * body Person 
- * returns Person
+ * body User  (optional)
+ * userId String 
+ * returns User
  **/
-exports.postPeople = function(body) {
+exports.putUserId = function(body,userId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "_id" : "a;slkdnv923r23",
-  "first_name" : "John",
-  "last_name" : "Doe",
-  "phone_num" : "01189998819991197253",
-  "email" : "johndoe@gmail.com"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
-}
-
-
-/**
- * Update person
- *
- * body Person 
- * personId String 
- * returns Person
- **/
-exports.putPersonId = function(body,personId) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "_id" : "a;slkdnv923r23",
-  "first_name" : "John",
-  "last_name" : "Doe",
-  "phone_num" : "01189998819991197253",
-  "email" : "johndoe@gmail.com"
+  "_id" : "6123778d576d702575e97590",
+  "username" : "johndoe",
+  "mobileNumber" : "01189998819991197253",
+  "createdAt" : "2021-09-06T08:04:37.137Z"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
