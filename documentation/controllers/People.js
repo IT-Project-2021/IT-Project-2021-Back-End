@@ -3,8 +3,8 @@
 var utils = require('../utils/writer.js');
 var People = require('../service/PeopleService');
 
-module.exports.peopleGET = function peopleGET (req, res, next) {
-  People.peopleGET()
+module.exports.deletePersonId = function deletePersonId (req, res, next, personId) {
+  People.deletePersonId(personId)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -13,8 +13,8 @@ module.exports.peopleGET = function peopleGET (req, res, next) {
     });
 };
 
-module.exports.peoplePOST = function peoplePOST (req, res, next, body) {
-  People.peoplePOST(body)
+module.exports.getPeople = function getPeople (req, res, next) {
+  People.getPeople()
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -23,8 +23,8 @@ module.exports.peoplePOST = function peoplePOST (req, res, next, body) {
     });
 };
 
-module.exports.peoplePersonIdDELETE = function peoplePersonIdDELETE (req, res, next, personId) {
-  People.peoplePersonIdDELETE(personId)
+module.exports.getPersonId = function getPersonId (req, res, next, personId) {
+  People.getPersonId(personId)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -33,8 +33,8 @@ module.exports.peoplePersonIdDELETE = function peoplePersonIdDELETE (req, res, n
     });
 };
 
-module.exports.peoplePersonIdGET = function peoplePersonIdGET (req, res, next, personId) {
-  People.peoplePersonIdGET(personId)
+module.exports.postPeople = function postPeople (req, res, next, body) {
+  People.postPeople(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -43,8 +43,8 @@ module.exports.peoplePersonIdGET = function peoplePersonIdGET (req, res, next, p
     });
 };
 
-module.exports.peoplePersonIdPUT = function peoplePersonIdPUT (req, res, next, body, personId) {
-  People.peoplePersonIdPUT(body, personId)
+module.exports.putPersonId = function putPersonId (req, res, next, body, personId) {
+  People.putPersonId(body, personId)
     .then(function (response) {
       utils.writeJson(res, response);
     })

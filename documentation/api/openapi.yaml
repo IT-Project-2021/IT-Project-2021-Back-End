@@ -6,14 +6,14 @@ info:
   version: 0.0.1
 servers:
 - url: http://localhost:4040/api
-  description: Production server (uses live data)
+  description: Local development server
 paths:
   /people:
     get:
       tags:
       - people
       summary: Get a list of all people
-      operationId: peopleGET
+      operationId: getPeople
       responses:
         "200":
           description: OK
@@ -21,14 +21,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Person'
+          links:
+            getPersonId:
+              $ref: '#/components/links/getPersonId'
+            putPersonId:
+              $ref: '#/components/links/putPersonId'
+            deletePersonId:
+              $ref: '#/components/links/deletePersonId'
         "5XX":
           description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       x-swagger-router-controller: People
     post:
       tags:
       - people
       summary: Create new person
-      operationId: peoplePOST
+      operationId: postPeople
       requestBody:
         content:
           application/json:
@@ -42,15 +53,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Person'
+          links:
+            getPersonId:
+              $ref: '#/components/links/getPersonId'
+            putPersonId:
+              $ref: '#/components/links/putPersonId'
+            deletePersonId:
+              $ref: '#/components/links/deletePersonId'
         "5XX":
           description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       x-swagger-router-controller: People
   /people/{personId}:
     get:
       tags:
       - people
       summary: Get person
-      operationId: peoplePersonIdGET
+      operationId: getPersonId
       parameters:
       - name: personId
         in: path
@@ -67,14 +89,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Person'
+          links:
+            getPersonId:
+              $ref: '#/components/links/getPersonId'
+            putPersonId:
+              $ref: '#/components/links/putPersonId'
+            deletePersonId:
+              $ref: '#/components/links/deletePersonId'
         "5XX":
           description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       x-swagger-router-controller: People
     put:
       tags:
       - people
       summary: Update person
-      operationId: peoplePersonIdPUT
+      operationId: putPersonId
       parameters:
       - name: personId
         in: path
@@ -97,14 +130,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Person'
+          links:
+            getPersonId:
+              $ref: '#/components/links/getPersonId'
+            putPersonId:
+              $ref: '#/components/links/putPersonId'
+            deletePersonId:
+              $ref: '#/components/links/deletePersonId'
         "5XX":
           description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       x-swagger-router-controller: People
     delete:
       tags:
       - people
       summary: Delete person
-      operationId: peoplePersonIdDELETE
+      operationId: deletePersonId
       parameters:
       - name: personId
         in: path
@@ -121,14 +165,91 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Person'
+          links:
+            getPersonId:
+              $ref: '#/components/links/getPersonId'
+            putPersonId:
+              $ref: '#/components/links/putPersonId'
+            deletePersonId:
+              $ref: '#/components/links/deletePersonId'
         "5XX":
           description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       x-swagger-router-controller: People
+  /auth/login:
+    post:
+      tags:
+      - auth
+      summary: Login with username and password
+      operationId: postLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth_login_body'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          links:
+            getRandom-Number:
+              $ref: '#/components/links/getRandom-Number'
+        "401":
+          description: Unauthorised.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Auth
+  /auth/random-number:
+    get:
+      tags:
+      - auth
+      summary: Returns a random number
+      operationId: getRandom-Number
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "401":
+          description: Unauthorised.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Auth
 components:
   schemas:
     Person:
       type: object
       properties:
+        _id:
+          type: string
+          example: dkl;afnsn3r89d
         first_name:
           type: string
           example: John
@@ -142,9 +263,105 @@ components:
           type: string
           example: johndoe@gmail.com
       example:
+        _id: a;slkdnv923r23
         first_name: John
         last_name: Doe
         phone_num: "01189998819991197253"
         email: johndoe@gmail.com
       xml:
         name: People
+    Error:
+      required:
+      - message
+      - stack
+      type: object
+      properties:
+        message:
+          type: string
+        stack:
+          type: string
+    auth_login_body:
+      type: object
+      properties:
+        username:
+          type: string
+          example: johndoe
+        password:
+          type: string
+          example: hunter2
+    inline_response_200:
+      type: object
+      properties:
+        token:
+          type: string
+        username:
+          type: string
+      example:
+        token: token
+        username: username
+    inline_response_200_1:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/inline_response_200_1_user'
+        num:
+          type: number
+          example: 26.20240705689305
+      example:
+        num: 26.20240705689305
+        user:
+          iat: 1630912001
+          username: johndoe
+    inline_response_200_1_user:
+      type: object
+      properties:
+        username:
+          type: string
+          example: johndoe
+        iat:
+          type: number
+          example: 1630912001
+      example:
+        iat: 1630912001
+        username: johndoe
+  responses:
+    UnexpectedError:
+      description: Unexpected error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorised:
+      description: Unauthorised.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  links:
+    getPersonId:
+      operationId: getPersonId
+      parameters:
+        personId: $response.body#/_id
+      description: "The 'personId' value returned in the response can be used as the\
+        \ 'personId' parameter in 'GET /people/{personId}'."
+    putPersonId:
+      operationId: putPersonId
+      parameters:
+        personId: $response.body#/_id
+      description: "The 'personId' value returned in the response can be used as the\
+        \ 'personId' parameter in 'PUT /people/{personId}'."
+    deletePersonId:
+      operationId: deletePersonId
+      parameters:
+        personId: $response.body#/_id
+      description: "The 'personId' value returned in the response can be used as the\
+        \ 'personId' paramater in 'DELETE /people/{personId}'."
+    getRandom-Number:
+      operationId: getRandom-Number
+      description: The 'token' value returned in the response can be used as the authorization
+        token in 'GET /auth/random-number'.
