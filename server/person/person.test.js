@@ -23,7 +23,10 @@ describe('## Person APIs', () => {
     first_name: 'John',
     last_name: 'Doe',
     phone_num: '01189998819991197253',
-    email: 'johndoe@gmail.com'
+    email: 'johndoe@gmail.com',
+    company: 'Company Inc.',
+    position: 'Developer',
+    notes: 'A very real man.'
   };
 
   describe('# POST /api/people', () => {
@@ -37,6 +40,9 @@ describe('## Person APIs', () => {
           expect(res.body.last_name).to.equal(person.last_name);
           expect(res.body.phone_num).to.equal(person.phone_num);
           expect(res.body.email).to.equal(person.email);
+          expect(res.body.company).to.equal(person.company);
+          expect(res.body.position).to.equal(person.position);
+          expect(res.body.notes).to.equal(person.notes);
           person = res.body;
           done();
         })
@@ -54,6 +60,9 @@ describe('## Person APIs', () => {
           expect(res.body.last_name).to.equal(person.last_name);
           expect(res.body.phone_num).to.equal(person.phone_num);
           expect(res.body.email).to.equal(person.email);
+          expect(res.body.company).to.equal(person.company);
+          expect(res.body.position).to.equal(person.position);
+          expect(res.body.notes).to.equal(person.notes);
           done();
         })
         .catch(done);
@@ -83,6 +92,9 @@ describe('## Person APIs', () => {
           expect(res.body.last_name).to.equal(person.last_name);
           expect(res.body.phone_num).to.equal(person.phone_num);
           expect(res.body.email).to.equal(person.email);
+          expect(res.body.company).to.equal(person.company);
+          expect(res.body.position).to.equal(person.position);
+          expect(res.body.notes).to.equal(person.notes);
           done();
         })
         .catch(done);
@@ -112,6 +124,9 @@ describe('## Person APIs', () => {
           expect(res.body.last_name).to.equal(person.last_name);
           expect(res.body.phone_num).to.equal(person.phone_num);
           expect(res.body.email).to.equal(person.email);
+          expect(res.body.company).to.equal(person.company);
+          expect(res.body.position).to.equal(person.position);
+          expect(res.body.notes).to.equal(person.notes);
           done();
         })
         .catch

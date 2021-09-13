@@ -18,6 +18,15 @@ const PersonSchema = new mongoose.Schema({
     },
     email: {
         type: String
+    },
+    company: {
+        type: String
+    },
+    position: {
+        type: String
+    },
+    notes: {
+        type: String
     }
 });
 
