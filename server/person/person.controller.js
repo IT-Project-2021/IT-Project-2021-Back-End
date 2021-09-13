@@ -77,7 +77,11 @@ function update(req, res, next) {
  * @returns {Person[]}
  */
 function list(req, res, next) {
-  const { } = req.query;
+  // everything works fine when this line is gone, and it doesn't
+  // look like any variables are being assigned?
+  // i didn't totally remove it just in case though
+  // const { } = req.query;
+
   Person.list()
     .then(people => res.json(people))
     .catch(e => next(e));

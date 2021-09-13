@@ -70,7 +70,7 @@ describe('## Person APIs', () => {
 
     it('should report error with message - Not found, when person does not exist', (done) => {
       request(app)
-        .get('/api/people/yeet')
+        .get('/api/people/888888888888888888888888')
         .expect(httpStatus.NOT_FOUND)
         .then((res) => {
           expect(res.body.message).to.equal('Not Found');
@@ -84,7 +84,7 @@ describe('## Person APIs', () => {
     it('should update person details', (done) => {
       person.first_name = 'Yeet';
       request(app)
-        .put('/api/people/${person._id}')
+        .put(`/api/people/${person._id}`)
         .send(person)
         .expect(httpStatus.OK)
         .then((res) => {
@@ -117,7 +117,7 @@ describe('## Person APIs', () => {
   describe('# DELETE /api/people/:personId', () => {
     it('should delete person', (done) => {
       request(app)
-        .delete('/api/people/${person._id}')
+        .delete(`/api/people/${person._id}`)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.first_name).to.equal('Yeet');
@@ -128,8 +128,8 @@ describe('## Person APIs', () => {
           expect(res.body.position).to.equal(person.position);
           expect(res.body.notes).to.equal(person.notes);
           done();
-        })
-        .catch
+        });
+        // .catch
     }).timeout(15000);
   });
 });
