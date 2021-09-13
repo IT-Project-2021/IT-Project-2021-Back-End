@@ -27,7 +27,7 @@ From here the local development environment should be set up.
 * Access the server at http://localhost:4040
 
 ### Deploying the server
-This server was deployed with Heroku with a connection to GitHub. A new Heroku user needs to be set up as mentioned above in "Setting up a local development environment". `.env` config variables need to be added in the settings of the heroku app. No port needs to be set as Heroku hosts by default on port 80. The NODE_ENV variable was changed to production.
+This server was deployed to Heroku with a connection to GitHub. A new Heroku user needs to be set up as mentioned above in "Setting up a local development environment". `.env` config variables need to be added in the settings of the heroku app. No port needs to be set as Heroku hosts by default on port 80. The NODE_ENV variable was changed to production.
 
 ## API Documentation
 The documentation for the API can be accessed locally inside this repository:

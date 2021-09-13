@@ -5,6 +5,8 @@ info:
     This is the My Daily Planner API documentation.
   version: 0.0.1
 servers:
+- url: https://it-project-2021-back-end.herokuapp.com/api
+  description: Heroku production deployment
 - url: http://localhost:4040/api
   description: Local development server
 paths:
@@ -153,7 +155,7 @@ paths:
     get:
       tags:
       - people
-      summary: Get list of users
+      summary: Get list of people
       operationId: getPeople
       responses:
         "200":

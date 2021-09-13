@@ -27,7 +27,7 @@ exports.deletePersonId = function(personId) {
 
 
 /**
- * Get list of users
+ * Get list of people
  *
  * returns Person
  **/
