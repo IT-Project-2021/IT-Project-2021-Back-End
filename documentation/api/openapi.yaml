@@ -322,6 +322,177 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       x-swagger-router-controller: People
+  /meetings:
+    get:
+      tags:
+      - meetings
+      summary: Get list of meetings
+      operationId: getMeetings
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+          links:
+            getMeetingId:
+              $ref: '#/components/links/getMeetingId'
+            putMeetingId:
+              $ref: '#/components/links/putMeetingId'
+            deleteMeetingId:
+              $ref: '#/components/links/deleteMeetingId'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Meetings
+    post:
+      tags:
+      - meetings
+      summary: Create new meeting
+      operationId: postMeeting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Meeting'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+          links:
+            getMeetingId:
+              $ref: '#/components/links/getMeetingId'
+            putMeetingId:
+              $ref: '#/components/links/putMeetingId'
+            deleteMeetingId:
+              $ref: '#/components/links/deleteMeetingId'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Meetings
+  /meetings/{meetingId}:
+    get:
+      tags:
+      - meetings
+      summary: Get meeting
+      operationId: getMeetingId
+      parameters:
+      - name: meetingId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 613efa4ae27fceca8e7ee9f6
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+          links:
+            getMeetingId:
+              $ref: '#/components/links/getMeetingId'
+            putMeetingId:
+              $ref: '#/components/links/putMeetingId'
+            deleteMeetingId:
+              $ref: '#/components/links/deleteMeetingId'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Meetings
+    put:
+      tags:
+      - meetings
+      summary: Update meeting
+      operationId: putMeetingId
+      parameters:
+      - name: meetingId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 613efa4ae27fceca8e7ee9f6
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Meeting'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+          links:
+            getMeetingId:
+              $ref: '#/components/links/getMeetingId'
+            putMeetingId:
+              $ref: '#/components/links/putMeetingId'
+            deleteMeetingId:
+              $ref: '#/components/links/deleteMeetingId'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Meetings
+    delete:
+      tags:
+      - meetings
+      summary: Delete meetings
+      operationId: deleteMeetingId
+      parameters:
+      - name: meetingId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 613efa4ae27fceca8e7ee9f6
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+          links:
+            getMeetingId:
+              $ref: '#/components/links/getMeetingId'
+            putMeetingId:
+              $ref: '#/components/links/putMeetingId'
+            deleteMeetingId:
+              $ref: '#/components/links/deleteMeetingId'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Meetings
   /auth/login:
     post:
       tags:
@@ -435,6 +606,58 @@ components:
         email: johndoe@gmail.com
       xml:
         name: People
+    Meeting:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: dkl;afnsn3r89d
+        details:
+          type: string
+          example: Details
+        date:
+          type: string
+          example: 2020-05-15T06:35:45Z
+        location:
+          type: string
+          example: Melbourne
+        participants:
+          type: array
+          example:
+          - Daniel
+          - John
+          items:
+            type: string
+        agenda:
+          type: array
+          example:
+          - Inception Sprint
+          - Sprint 1
+          items:
+            type: string
+        alerts:
+          type: array
+          example:
+          - alertTime: 2020-05-15T06:35:45Z
+            alertSetting: email
+          items:
+            $ref: '#/components/schemas/Meeting_alerts'
+      example:
+        _id: a;slkdnv923r23
+        details: Details
+        date: 2020-05-15T06:35:45Z
+        location: Melbourne
+        participants:
+        - Daniel
+        - John
+        agenda:
+        - Inception Sprint
+        - Sprint 1
+        alerts:
+        - alertTime: 2020-05-15T06:35:45Z
+          alertSettings: email
+      xml:
+        name: Meeting
     Error:
       required:
       - message
@@ -477,6 +700,15 @@ components:
         user:
           iat: 1630912001
           username: johndoe
+    Meeting_alerts:
+      type: object
+      properties:
+        alertTime:
+          type: string
+          example: 2020-05-15T06:35:45Z
+        alertSetting:
+          type: string
+          example: email
     inline_response_200_1_user:
       type: object
       properties:
@@ -544,6 +776,24 @@ components:
         personId: $response.body#/_id
       description: "The '_id' value returned in the response can be used as the 'personId'\
         \ paramater in 'DELETE /people/{personId}'."
+    getMeetingId:
+      operationId: getMeetingId
+      parameters:
+        personId: $response.body#/_id
+      description: "The '_id' value returned in the response can be used as the 'meetingId'\
+        \ parameter in 'GET /meetings/{meetingId}'."
+    putMeetingId:
+      operationId: putMeetingId
+      parameters:
+        personId: $response.body#/_id
+      description: "The '_id' value returned in the response can be used as the 'meetingId'\
+        \ parameter in 'PUT /meetings/{meetingId}'."
+    deleteMeetingId:
+      operationId: deleteMeetingId
+      parameters:
+        personId: $response.body#/_id
+      description: "The '_id' value returned in the response can be used as the 'meetingId'\
+        \ paramater in 'DELETE /meetings/{meetingId}'."
     getRandom-Number:
       operationId: getRandom-Number
       description: The 'token' value returned in the response can be used as the authorization
