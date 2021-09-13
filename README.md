@@ -1,5 +1,6 @@
 # My Daily Planner Back-End Repository
-The back-end repository for the website 'My Daily Planner'
+The back-end repository for the website 'My Daily Planner'.
+
 This can be accessed at https://it-project-2021-back-end.herokuapp.com/.
 
 ## Getting started
