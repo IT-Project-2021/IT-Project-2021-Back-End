@@ -23,7 +23,10 @@ describe('## Person APIs', () => {
     first_name: 'John',
     last_name: 'Doe',
     phone_num: '01189998819991197253',
-    email: 'johndoe@gmail.com'
+    email: 'johndoe@gmail.com',
+    company: 'Company Inc.',
+    position: 'Developer',
+    notes: 'A very real man.'
   };
 
   describe('# POST /api/people', () => {
@@ -37,6 +40,9 @@ describe('## Person APIs', () => {
           expect(res.body.last_name).to.equal(person.last_name);
           expect(res.body.phone_num).to.equal(person.phone_num);
           expect(res.body.email).to.equal(person.email);
+          expect(res.body.company).to.equal(person.company);
+          expect(res.body.position).to.equal(person.position);
+          expect(res.body.notes).to.equal(person.notes);
           person = res.body;
           done();
         })
@@ -54,6 +60,9 @@ describe('## Person APIs', () => {
           expect(res.body.last_name).to.equal(person.last_name);
           expect(res.body.phone_num).to.equal(person.phone_num);
           expect(res.body.email).to.equal(person.email);
+          expect(res.body.company).to.equal(person.company);
+          expect(res.body.position).to.equal(person.position);
+          expect(res.body.notes).to.equal(person.notes);
           done();
         })
         .catch(done);
@@ -61,7 +70,7 @@ describe('## Person APIs', () => {
 
     it('should report error with message - Not found, when person does not exist', (done) => {
       request(app)
-        .get('/api/people/yeet')
+        .get('/api/people/888888888888888888888888')
         .expect(httpStatus.NOT_FOUND)
         .then((res) => {
           expect(res.body.message).to.equal('Not Found');
@@ -75,7 +84,7 @@ describe('## Person APIs', () => {
     it('should update person details', (done) => {
       person.first_name = 'Yeet';
       request(app)
-        .put('/api/people/${person._id}')
+        .put(`/api/people/${person._id}`)
         .send(person)
         .expect(httpStatus.OK)
         .then((res) => {
@@ -83,6 +92,9 @@ describe('## Person APIs', () => {
           expect(res.body.last_name).to.equal(person.last_name);
           expect(res.body.phone_num).to.equal(person.phone_num);
           expect(res.body.email).to.equal(person.email);
+          expect(res.body.company).to.equal(person.company);
+          expect(res.body.position).to.equal(person.position);
+          expect(res.body.notes).to.equal(person.notes);
           done();
         })
         .catch(done);
@@ -105,16 +117,19 @@ describe('## Person APIs', () => {
   describe('# DELETE /api/people/:personId', () => {
     it('should delete person', (done) => {
       request(app)
-        .delete('/api/people/${person._id}')
+        .delete(`/api/people/${person._id}`)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.first_name).to.equal('Yeet');
           expect(res.body.last_name).to.equal(person.last_name);
           expect(res.body.phone_num).to.equal(person.phone_num);
           expect(res.body.email).to.equal(person.email);
+          expect(res.body.company).to.equal(person.company);
+          expect(res.body.position).to.equal(person.position);
+          expect(res.body.notes).to.equal(person.notes);
           done();
-        })
-        .catch
+        });
+        // .catch
     }).timeout(3000);
   });
 });
