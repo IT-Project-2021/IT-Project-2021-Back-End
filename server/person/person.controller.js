@@ -26,13 +26,19 @@ function get(req, res) {
  * @property {string} req.body.last_name - The last name of the person.
  * @property {string} req.body.phone_num - The phone number of the person.
  * @property {string} req.body.email - The email of the person.
+ * @property {string} req.body.company - The company the person is associated with
+ * @property {string} req.body.position - The person's position within the company
+ * @property {string} req.body.notes - Notes about the person
  */
 function create(req, res, next) {
   const person = new Person({
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     phone_num: req.body.phone_num,
-    email: req.body.email
+    email: req.body.email,
+    company: req.body.company,
+    position: req.body.position,
+    notes: req.body.notes
   });
 
   person.save()
@@ -46,6 +52,9 @@ function create(req, res, next) {
  * @property {string} req.body.last_name - The last name of the person.
  * @property {string} req.body.phone_num - The phone number of the person.
  * @property {string} req.body.email - The email of the person.
+ * @property {string} req.body.company - The company the person is associated with
+ * @property {string} req.body.position - The person's position within the company
+ * @property {string} req.body.notes - Notes about the person
  * @returns {Person}
  */
 function update(req, res, next) {
@@ -54,6 +63,9 @@ function update(req, res, next) {
   person.last_name = req.body.last_name;
   person.phone_num = req.body.phone_num;
   person.email = req.body.email;
+  person.company = req.body.company;
+  person.position = req.body.position;
+  person.notes = req.body.notes;
 
   person.save()
     .then(savedPerson => res.json(savedPerson))
@@ -65,7 +77,11 @@ function update(req, res, next) {
  * @returns {Person[]}
  */
 function list(req, res, next) {
-  const { } = req.query;
+  // everything works fine when this line is gone, and it doesn't
+  // look like any variables are being assigned?
+  // i didn't totally remove it just in case though
+  // const { } = req.query;
+
   Person.list()
     .then(people => res.json(people))
     .catch(e => next(e));

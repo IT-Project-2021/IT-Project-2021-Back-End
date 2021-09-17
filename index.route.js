@@ -20,7 +20,7 @@ router.use('/users', userRoutes);
 router.use('/auth', authRoutes);
 
 // mount person routes at /people
-router.use('/people', personRoutes)
+router.use('/people', personRoutes);
 
 // mounter meeting routes at /meetings
 router.use('/meetings', meetingRoutes)
