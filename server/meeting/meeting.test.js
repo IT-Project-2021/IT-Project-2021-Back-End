@@ -21,11 +21,11 @@ after((done) => {
 describe('## Meeting APIs', () => {
   let meeting = {
     details: 'Details',
-    date: "2020-05-15T06:35:45Z",
+    date: "2020-05-15T06:35:45.000Z",
     location: "Melbourne",
     participants: ["Daniel", "John"],
     agenda: ["Inception Sprint", "Sprint 1"],
-    alerts: [{ alertTime: "2020-05-15T06:35:45Z", alertSetting: "email" }]
+    alerts: [{ alertTime: "2020-05-15T06:35:45.000Z", alertSetting: "email" }]
   };
 
   describe('# POST /api/meetings', () => {
@@ -38,14 +38,15 @@ describe('## Meeting APIs', () => {
           expect(res.body.details).to.equal(meeting.details);
           expect(res.body.date).to.equal(meeting.date);
           expect(res.body.location).to.equal(meeting.location);
-          expect(res.body.participants).to.equal(meeting.participants);
-          expect(res.body.agenda).to.equal(meeting.agenda);
-          expect(res.body.alerts).to.equal(meeting.alerts);
+          expect(res.body.participants).to.deep.equal(meeting.participants);
+          expect(res.body.agenda).to.deep.equal(meeting.agenda);
+          expect(res.body.alerts.alertTime).to.equal(meeting.alerts.alertTime);
+          expect(res.body.alerts.alertSetting).to.equal(meeting.alerts.alertSetting);
           meeting = res.body;
           done();
         })
         .catch(done);
-    });
+    }).timeout(15000);
   });
 
   describe('# GET /api/meetings/:meetingId', () => {
@@ -57,9 +58,10 @@ describe('## Meeting APIs', () => {
           expect(res.body.details).to.equal(meeting.details);
           expect(res.body.date).to.equal(meeting.date);
           expect(res.body.location).to.equal(meeting.location);
-          expect(res.body.participants).to.equal(meeting.participants);
-          expect(res.body.agenda).to.equal(meeting.agenda);
-          expect(res.body.alerts).to.equal(meeting.alerts);
+          expect(res.body.participants).to.deep.equal(meeting.participants);
+          expect(res.body.agenda).to.deep.equal(meeting.agenda);
+          expect(res.body.alerts.alertTime).to.equal(meeting.alerts.alertTime);
+          expect(res.body.alerts.alertSetting).to.equal(meeting.alerts.alertSetting);
           done();
         })
         .catch(done);
@@ -88,9 +90,10 @@ describe('## Meeting APIs', () => {
           expect(res.body.details).to.equal('Yeet');
           expect(res.body.date).to.equal(meeting.date);
           expect(res.body.location).to.equal(meeting.location);
-          expect(res.body.participants).to.equal(meeting.participants);
-          expect(res.body.agenda).to.equal(meeting.agenda);
-          expect(res.body.alerts).to.equal(meeting.alerts);
+          expect(res.body.participants).to.deep.equal(meeting.participants);
+          expect(res.body.agenda).to.deep.equal(meeting.agenda);
+          expect(res.body.alerts.alertTime).to.equal(meeting.alerts.alertTime);
+          expect(res.body.alerts.alertSetting).to.equal(meeting.alerts.alertSetting);
           done();
         })
         .catch(done);
@@ -119,9 +122,10 @@ describe('## Meeting APIs', () => {
           expect(res.body.details).to.equal('Yeet');
           expect(res.body.date).to.equal(meeting.date);
           expect(res.body.location).to.equal(meeting.location);
-          expect(res.body.participants).to.equal(meeting.participants);
-          expect(res.body.agenda).to.equal(meeting.agenda);
-          expect(res.body.alerts).to.equal(meeting.alerts);
+          expect(res.body.participants).to.deep.equal(meeting.participants);
+          expect(res.body.agenda).to.deep.equal(meeting.agenda);
+          expect(res.body.alerts.alertTime).to.equal(meeting.alerts.alertTime);
+          expect(res.body.alerts.alertSetting).to.equal(meeting.alerts.alertSetting);
           done();
         });
       // .catch
