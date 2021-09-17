@@ -1,24 +1,30 @@
 const Promise = require('bluebird');
 const mongoose = require('mongoose');
 const httpStatus = require('http-status');
-const APIError = require('../helpers/APIError');
 
 /**
  * Meeting Schema
  */
 const MeetingSchema = new mongoose.Schema({
   details: {
-    type: String,
+    type: String
   },
   date: {
-    type: Date,
+    type: Date
   },
   location: {
     type: String
   },
   participants: [String],
   agenda: [String],
-  alerts: [Alert]
+  alerts: [{
+    alertTime: {
+      type: String
+    },
+    alertSetting: {
+      type: String
+    }
+  }]
 });
 
 /**
@@ -39,7 +45,8 @@ MeetingSchema.statics = {
         }
         const err = new APIError('No such meeting exists!', httpStatus.NOT_FOUND);
         return Promise.reject(err);
-      });
+      }
+      );
   },
 
   /**

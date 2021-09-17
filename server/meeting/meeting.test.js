@@ -67,7 +67,7 @@ describe('## Meeting APIs', () => {
 
     it('should report error with message - Not found, when meeting does not exist', (done) => {
       request(app)
-        .get('/api/meetings/yeet')
+        .get('/api/meetings/888888888888888888888888')
         .expect(httpStatus.NOT_FOUND)
         .then((res) => {
           expect(res.body.message).to.equal('Not Found');
@@ -81,7 +81,7 @@ describe('## Meeting APIs', () => {
     it('should update meeting details', (done) => {
       meeting.details = 'Yeet';
       request(app)
-        .put('/api/meetings/${meeting._id}')
+        .put(`/api/meetings/${meeting._id}`)
         .send(meeting)
         .expect(httpStatus.OK)
         .then((res) => {
@@ -113,7 +113,7 @@ describe('## Meeting APIs', () => {
   describe('# DELETE /api/meetings/:meetingId', () => {
     it('should delete meeting', (done) => {
       request(app)
-        .delete('/api/meetings/${meeting._id}')
+        .delete(`/api/meetings/${meeting._id}`)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.details).to.equal('Yeet');
@@ -123,8 +123,8 @@ describe('## Meeting APIs', () => {
           expect(res.body.agenda).to.equal(meeting.agenda);
           expect(res.body.alerts).to.equal(meeting.alerts);
           done();
-        })
-        .catch
+        });
+      // .catch
     }).timeout(3000);
   });
 });

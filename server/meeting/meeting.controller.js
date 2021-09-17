@@ -1,5 +1,4 @@
 const Meeting = require('./meeting.model');
-const Alert = require('../alert/alert.model');
 
 /**
  * Load meeting and append to req.
@@ -28,7 +27,7 @@ function get(req, res) {
  * @property {string} req.body.location - The location of the meeting.
  * @property {string[]} req.body.participants - The participants of the meeting.
  * @property {string[]} req.body.agenda - The agenda of the meeting.
- * @property {Alert[]} req.body.alerts - The alerts of the meeting.
+ * @property {object[]} req.body.alerts - The alerts of the meeting.
  */
 function create(req, res, next) {
   const meeting = new Meeting({
@@ -52,7 +51,7 @@ function create(req, res, next) {
  * @property {string} req.body.location - The location of the meeting.
  * @property {string[]} req.body.participants - The participants of the meeting.
  * @property {string[]} req.body.agenda - The agenda of the meeting.
- * @property {alert[]} req.body.alerts - The alerts of the meeting.
+ * @property {object[]} req.body.alerts - The alerts of the meeting.
  * @returns {Meeting}
  */
 function update(req, res, next) {
@@ -74,7 +73,6 @@ function update(req, res, next) {
  * @returns {Meeting[]}
  */
 function list(req, res, next) {
-  const { } = req.query;
   Meeting.list()
     .then(meetings => res.json(meetings))
     .catch(e => next(e));
