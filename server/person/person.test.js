@@ -77,7 +77,7 @@ describe('## Person APIs', () => {
           done();
         })
         .catch(done);
-    }).timeout(15000);
+    }).timeout(3000);
   });
 
   describe('# PUT /api/:personId', () => {
@@ -98,7 +98,7 @@ describe('## Person APIs', () => {
           done();
         })
         .catch(done);
-    }).timeout(15000);
+    }).timeout(3000);
   });
 
   describe('# GET /api/people/', () => {
@@ -130,6 +130,6 @@ describe('## Person APIs', () => {
           done();
         });
         // .catch
-    }).timeout(15000);
+    }).timeout(3000);
   });
 });

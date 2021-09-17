@@ -1,7 +1,8 @@
 # My Daily Planner Back-End Repository
 The back-end repository for the website 'My Daily Planner'.
 
-This can be accessed at https://it-project-2021-back-end.herokuapp.com/.
+This can be accessed at https://it-project-2021-back-end.herokuapp.com/.  
+Documentation can be accessed at https://it-project-2021-documentation.herokuapp.com/docs/.
 
 ## Getting started
 ### Setting up a local development environment
@@ -27,11 +28,13 @@ From here the local development environment should be set up.
 * Access the server at http://localhost:4040
 
 ### Deploying the server
-This server was deployed with Heroku with a connection to GitHub. A new Heroku user needs to be set up as mentioned above in "Setting up a local development environment". .evn config variables need to be added in the settings of the heroku app. No port needs to be set as Heroku hosts by default on port 80. The NODE_ENV variable was changed to production.
+This server was deployed to Heroku with a connection to GitHub.  
+A new Heroku user needs to be set up as mentioned above in "Setting up a local development environment". `.env` config variables need to be added in the settings of the heroku app. No port needs to be set as Heroku hosts by default on port 80. The NODE_ENV variable was changed to production.
 
 ## API Documentation
-The documentation for the API can be accessed locally inside this repository:
+The documentation on the back-end API can be found at https://it-project-2021-documentation.herokuapp.com/docs/.
 
+Alternatively, the documentation for the API can be accessed locally inside this repository:  
 * cd into the documentation folder: `cd documentation`
 * Run the documentation server: `yarn start`
   * Dependencies may need to be installed at first use: `yarn`
