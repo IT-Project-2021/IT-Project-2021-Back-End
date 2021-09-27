@@ -20,8 +20,13 @@ after((done) => {
 
 describe('## User APIs', () => {
   let user = {
-    username: 'KK123',
-    mobileNumber: '1234567890'
+    first_name: 'John',
+    last_name: 'Doe',
+    phone_num: '01189998819991197253',
+    email: 'johndoe@gmail.com',
+    password_hash: 'hunter2',
+    contacts: ['6123785eec27a723da40feae', '6123827fd394f951583f0578'],
+    meetings: ['613efb07bcfb116d50665acb', '613efb689b7c8e6ef8fdc4e6']
   };
 
   describe('# POST /api/users', () => {
@@ -31,8 +36,13 @@ describe('## User APIs', () => {
         .send(user)
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body.username).to.equal(user.username);
-          expect(res.body.mobileNumber).to.equal(user.mobileNumber);
+          expect(res.body.first_name).to.equal(user.first_name);
+          expect(res.body.last_name).to.equal(user.last_name);
+          expect(res.body.phone_num).to.equal(user.phone_num);
+          expect(res.body.email).to.equal(user.email);
+          expect(res.body.password_hash).to.equal(user.password_hash);
+          expect(res.body.contacts).to.deep.equal(user.contacts);
+          expect(res.body.meetings).to.deep.equal(user.meetings);
           user = res.body;
           done();
         })
@@ -46,8 +56,13 @@ describe('## User APIs', () => {
         .get(`/api/users/${user._id}`)
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body.username).to.equal(user.username);
-          expect(res.body.mobileNumber).to.equal(user.mobileNumber);
+          expect(res.body.first_name).to.equal(user.first_name);
+          expect(res.body.last_name).to.equal(user.last_name);
+          expect(res.body.phone_num).to.equal(user.phone_num);
+          expect(res.body.email).to.equal(user.email);
+          expect(res.body.password_hash).to.equal(user.password_hash);
+          expect(res.body.contacts).to.deep.equal(user.contacts);
+          expect(res.body.meetings).to.deep.equal(user.meetings);
           done();
         })
         .catch(done);
@@ -67,14 +82,19 @@ describe('## User APIs', () => {
 
   describe('# PUT /api/users/:userId', () => {
     it('should update user details', (done) => {
-      user.username = 'KK';
+      user.first_name = 'KK';
       request(app)
         .put(`/api/users/${user._id}`)
         .send(user)
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body.username).to.equal('KK');
-          expect(res.body.mobileNumber).to.equal(user.mobileNumber);
+          expect(res.body.first_name).to.equal('KK');
+          expect(res.body.last_name).to.equal(user.last_name);
+          expect(res.body.phone_num).to.equal(user.phone_num);
+          expect(res.body.email).to.equal(user.email);
+          expect(res.body.password_hash).to.equal(user.password_hash);
+          expect(res.body.contacts).to.deep.equal(user.contacts);
+          expect(res.body.meetings).to.deep.equal(user.meetings);
           done();
         })
         .catch(done);
@@ -92,28 +112,21 @@ describe('## User APIs', () => {
         })
         .catch(done);
     });
-
-    it('should get all users (with limit and skip)', (done) => {
-      request(app)
-        .get('/api/users')
-        .query({ limit: 10, skip: 1 })
-        .expect(httpStatus.OK)
-        .then((res) => {
-          expect(res.body).to.be.an('array');
-          done();
-        })
-        .catch(done);
-    });
   });
 
-  describe('# DELETE /api/users/', () => {
+  describe('# DELETE /api/users/:userId', () => {
     it('should delete user', (done) => {
       request(app)
         .delete(`/api/users/${user._id}`)
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body.username).to.equal('KK');
-          expect(res.body.mobileNumber).to.equal(user.mobileNumber);
+          expect(res.body.first_name).to.equal('KK');
+          expect(res.body.last_name).to.equal(user.last_name);
+          expect(res.body.phone_num).to.equal(user.phone_num);
+          expect(res.body.email).to.equal(user.email);
+          expect(res.body.password_hash).to.equal(user.password_hash);
+          expect(res.body.contacts).to.deep.equal(user.contacts);
+          expect(res.body.meetings).to.deep.equal(user.meetings);
           done();
         })
         .catch(done);

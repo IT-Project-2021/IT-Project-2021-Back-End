@@ -564,28 +564,6 @@ components:
         _id:
           type: string
           example: 6123778d576d702575e97590
-        username:
-          type: string
-          example: johndoe
-        mobileNumber:
-          type: string
-          example: "01189998819991197253"
-        createdAt:
-          type: string
-          example: 2021-09-06T08:04:37.137Z
-      example:
-        _id: 6123778d576d702575e97590
-        username: johndoe
-        mobileNumber: "01189998819991197253"
-        createdAt: 2021-09-06T08:04:37.137Z
-      xml:
-        name: Users
-    Person:
-      type: object
-      properties:
-        _id:
-          type: string
-          example: dkl;afnsn3r89d
         first_name:
           type: string
           example: John
@@ -598,12 +576,74 @@ components:
         email:
           type: string
           example: johndoe@gmail.com
+        password_hash:
+          type: string
+          example: hunter2
+        contacts:
+          type: array
+          example:
+          - 6123785eec27a723da40feae
+          - 6123827fd394f951583f0578
+          items:
+            type: string
+        meetings:
+          type: array
+          example:
+          - 613efb07bcfb116d50665acb
+          - 613efb689b7c8e6ef8fdc4e6
+          items:
+            type: string
       example:
-        _id: a;slkdnv923r23
+        _id: 6123778d576d702575e97590
         first_name: John
         last_name: Doe
         phone_num: "01189998819991197253"
         email: johndoe@gmail.com
+        password_hash: hunter2
+        contacts:
+        - 6123785eec27a723da40feae
+        - 6123827fd394f951583f0578
+        meetings:
+        - 613efb07bcfb116d50665acb
+        - 613efb689b7c8e6ef8fdc4e6
+      xml:
+        name: Users
+    Person:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 6123785eec27a723da40feae
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        phone_num:
+          type: string
+          example: "01189998819991197253"
+        email:
+          type: string
+          example: johndoe@gmail.com
+        company:
+          type: string
+          example: Company Inc.
+        position:
+          type: string
+          example: Developer
+        notes:
+          type: string
+          example: A very real man.
+      example:
+        _id: 6123785eec27a723da40feae
+        first_name: John
+        last_name: Doe
+        phone_num: "01189998819991197253"
+        email: johndoe@gmail.com
+        company: Company Inc.
+        position: Developer
+        notes: 'A very real man.  '
       xml:
         name: People
     Meeting:
@@ -611,7 +651,7 @@ components:
       properties:
         _id:
           type: string
-          example: dkl;afnsn3r89d
+          example: 613efb07bcfb116d50665acb
         details:
           type: string
           example: Details
@@ -624,8 +664,8 @@ components:
         participants:
           type: array
           example:
-          - Daniel
-          - John
+          - 6123785eec27a723da40feae
+          - 6123827fd394f951583f0578
           items:
             type: string
         agenda:
@@ -648,8 +688,8 @@ components:
         date: 2020-05-15T06:35:45Z
         location: Melbourne
         participants:
-        - Daniel
-        - John
+        - 6123785eec27a723da40feae
+        - 6123827fd394f951583f0578
         agenda:
         - Inception Sprint
         - Sprint 1
