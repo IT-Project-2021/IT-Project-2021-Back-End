@@ -12,9 +12,13 @@ exports.deleteUserId = function(userId) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "6123778d576d702575e97590",
-  "username" : "johndoe",
-  "mobileNumber" : "01189998819991197253",
-  "createdAt" : "2021-09-06T08:04:37.137Z"
+  "first_name" : "John",
+  "last_name" : "Doe",
+  "phone_num" : "01189998819991197253",
+  "email" : "johndoe@gmail.com",
+  "password_hash" : "hunter2",
+  "contacts" : [ "6123785eec27a723da40feae", "6123827fd394f951583f0578" ],
+  "meetings" : [ "613efb07bcfb116d50665acb", "613efb689b7c8e6ef8fdc4e6" ]
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -36,9 +40,13 @@ exports.getUserId = function(userId) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "6123778d576d702575e97590",
-  "username" : "johndoe",
-  "mobileNumber" : "01189998819991197253",
-  "createdAt" : "2021-09-06T08:04:37.137Z"
+  "first_name" : "John",
+  "last_name" : "Doe",
+  "phone_num" : "01189998819991197253",
+  "email" : "johndoe@gmail.com",
+  "password_hash" : "hunter2",
+  "contacts" : [ "6123785eec27a723da40feae", "6123827fd394f951583f0578" ],
+  "meetings" : [ "613efb07bcfb116d50665acb", "613efb689b7c8e6ef8fdc4e6" ]
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -59,9 +67,13 @@ exports.getUsers = function() {
     var examples = {};
     examples['application/json'] = {
   "_id" : "6123778d576d702575e97590",
-  "username" : "johndoe",
-  "mobileNumber" : "01189998819991197253",
-  "createdAt" : "2021-09-06T08:04:37.137Z"
+  "first_name" : "John",
+  "last_name" : "Doe",
+  "phone_num" : "01189998819991197253",
+  "email" : "johndoe@gmail.com",
+  "password_hash" : "hunter2",
+  "contacts" : [ "6123785eec27a723da40feae", "6123827fd394f951583f0578" ],
+  "meetings" : [ "613efb07bcfb116d50665acb", "613efb689b7c8e6ef8fdc4e6" ]
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -83,9 +95,13 @@ exports.postUsers = function(body) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "6123778d576d702575e97590",
-  "username" : "johndoe",
-  "mobileNumber" : "01189998819991197253",
-  "createdAt" : "2021-09-06T08:04:37.137Z"
+  "first_name" : "John",
+  "last_name" : "Doe",
+  "phone_num" : "01189998819991197253",
+  "email" : "johndoe@gmail.com",
+  "password_hash" : "hunter2",
+  "contacts" : [ "6123785eec27a723da40feae", "6123827fd394f951583f0578" ],
+  "meetings" : [ "613efb07bcfb116d50665acb", "613efb689b7c8e6ef8fdc4e6" ]
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -108,9 +124,13 @@ exports.putUserId = function(body,userId) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "6123778d576d702575e97590",
-  "username" : "johndoe",
-  "mobileNumber" : "01189998819991197253",
-  "createdAt" : "2021-09-06T08:04:37.137Z"
+  "first_name" : "John",
+  "last_name" : "Doe",
+  "phone_num" : "01189998819991197253",
+  "email" : "johndoe@gmail.com",
+  "password_hash" : "hunter2",
+  "contacts" : [ "6123785eec27a723da40feae", "6123827fd394f951583f0578" ],
+  "meetings" : [ "613efb07bcfb116d50665acb", "613efb689b7c8e6ef8fdc4e6" ]
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

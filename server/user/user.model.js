@@ -7,19 +7,23 @@ const APIError = require('../helpers/APIError');
  * User Schema
  */
 const UserSchema = new mongoose.Schema({
-  username: {
+  first_name: {
     type: String,
-    required: true
   },
-  mobileNumber: {
+  last_name: {
     type: String,
-    required: true,
-    match: [/^[1-9][0-9]{9}$/, 'The value of path {PATH} ({VALUE}) is not a valid mobile number.']
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  phone_num: {
+    type: String
+  },
+  email: {
+    type: String,
+  },
+  password_hash: {
+    type: String,
+  },
+  contacts: [String],
+  meetings: [String]
 });
 
 /**
@@ -57,16 +61,12 @@ UserSchema.statics = {
   },
 
   /**
-   * List users in descending order of 'createdAt' timestamp.
-   * @param {number} skip - Number of users to be skipped.
-   * @param {number} limit - Limit number of users to be returned.
+   * List users in descending order of 'last_name' timestamp.
    * @returns {Promise<User[]>}
    */
-  list({ skip = 0, limit = 50 } = {}) {
+  list() {
     return this.find()
-      .sort({ createdAt: -1 })
-      .skip(+skip)
-      .limit(+limit)
+      .sort({ last_name: -1 })
       .exec();
   }
 };

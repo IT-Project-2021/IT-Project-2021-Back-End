@@ -21,11 +21,11 @@ after((done) => {
 describe('## Meeting APIs', () => {
   let meeting = {
     details: 'Details',
-    date: "2020-05-15T06:35:45.000Z",
-    location: "Melbourne",
-    participants: ["Daniel", "John"],
-    agenda: ["Inception Sprint", "Sprint 1"],
-    alerts: [{ alertTime: "2020-05-15T06:35:45.000Z", alertSetting: "email" }]
+    date: '2020-05-15T06:35:45.000Z',
+    location: 'Melbourne',
+    participants: ['6123785eec27a723da40feae', '6123827fd394f951583f0578'],
+    agenda: ['Inception Sprint', 'Sprint 1'],
+    alerts: [{ alertTime: '2020-05-15T06:35:45.000Z', alertSetting: 'email' }]
   };
 
   describe('# POST /api/meetings', () => {
