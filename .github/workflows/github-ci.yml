@@ -8,3 +8,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Test
         uses: onichandame/node-test-action@master
+        env:
+          NODE_ENV: development
+          PORT: 4040
+          JWT_SECRET: 0a6b944d-d2fb-46fc-a85e-0295c986cd9f
+          MONGO_HOST: mongodb+srv://ci:KovpVzwuj3ac9oet3aSc@cluster0.lozqs.mongodb.net/IT-Project?retryWrites=true&w=majority
+          MONGO_PORT: 27017
