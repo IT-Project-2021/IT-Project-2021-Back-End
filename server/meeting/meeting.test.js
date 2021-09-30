@@ -20,6 +20,7 @@ after((done) => {
 
 describe('## Meeting APIs', () => {
   let meeting = {
+    title: 'Meeting Name',
     details: 'Details',
     date: '2020-05-15T06:35:45.000Z',
     location: 'Melbourne',
@@ -35,6 +36,7 @@ describe('## Meeting APIs', () => {
         .send(meeting)
         .expect(httpStatus.OK)
         .then((res) => {
+          expect(res.body.title).to.equal(meeting.title);
           expect(res.body.details).to.equal(meeting.details);
           expect(res.body.date).to.equal(meeting.date);
           expect(res.body.location).to.equal(meeting.location);
@@ -55,6 +57,7 @@ describe('## Meeting APIs', () => {
         .get(`/api/meetings/${meeting._id}`)
         .expect(httpStatus.OK)
         .then((res) => {
+          expect(res.body.title).to.equal(meeting.title);
           expect(res.body.details).to.equal(meeting.details);
           expect(res.body.date).to.equal(meeting.date);
           expect(res.body.location).to.equal(meeting.location);
@@ -87,6 +90,7 @@ describe('## Meeting APIs', () => {
         .send(meeting)
         .expect(httpStatus.OK)
         .then((res) => {
+          expect(res.body.title).to.equal(meeting.title);
           expect(res.body.details).to.equal('Yeet');
           expect(res.body.date).to.equal(meeting.date);
           expect(res.body.location).to.equal(meeting.location);
@@ -119,6 +123,7 @@ describe('## Meeting APIs', () => {
         .delete(`/api/meetings/${meeting._id}`)
         .expect(httpStatus.OK)
         .then((res) => {
+          expect(res.body.title).to.equal(meeting.title);
           expect(res.body.details).to.equal('Yeet');
           expect(res.body.date).to.equal(meeting.date);
           expect(res.body.location).to.equal(meeting.location);
