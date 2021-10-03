@@ -59,13 +59,13 @@ function create(req, res, next) {
  */
 function update(req, res, next) {
   const meeting = req.meeting;
-  meeting.title = req.body.title;
-  meeting.details = req.body.details;
-  meeting.date = req.body.date;
-  meeting.location = req.body.location;
-  meeting.participants = req.body.participants;
-  meeting.agenda = req.body.agenda;
-  meeting.alerts = req.body.alerts;
+  meeting.title = req.body.title || meeting.title;
+  meeting.details = req.body.details || meeting.details;
+  meeting.date = req.body.date || meeting.date;
+  meeting.location = req.body.location || meeting.location;
+  meeting.participants = req.body.participants || meeting.participants;
+  meeting.agenda = req.body.agenda || meeting.agenda;
+  meeting.alerts = req.body.alerts || meeting.alerts;
 
   meeting.save()
     .then(savedMeeting => res.json(savedMeeting))

@@ -59,13 +59,13 @@ function create(req, res, next) {
  */
 function update(req, res, next) {
   const person = req.person;
-  person.first_name = req.body.first_name;
-  person.last_name = req.body.last_name;
-  person.phone_num = req.body.phone_num;
-  person.email = req.body.email;
-  person.company = req.body.company;
-  person.position = req.body.position;
-  person.notes = req.body.notes;
+  person.first_name = req.body.first_name || person.first_name;
+  person.last_name = req.body.last_name || person.last_name;
+  person.phone_num = req.body.phone_num || person.phone_num;
+  person.email = req.body.email || person.email;
+  person.company = req.body.company || person.company;
+  person.position = req.body.position || person.position;
+  person.notes = req.body.notes || person.notes;
 
   person.save()
     .then(savedPerson => res.json(savedPerson))

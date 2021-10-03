@@ -60,13 +60,13 @@ function create(req, res, next) {
  */
 function update(req, res, next) {
   const user = req.user;
-  user.first_name = req.body.first_name;
-  user.last_name = req.body.last_name;
-  user.phone_num = req.body.phone_num;
-  user.email = req.body.email;
-  user.password_hash = req.body.password_hash;
-  user.contacts = req.body.contacts;
-  user.meetings = req.body.meetings;
+  user.first_name = req.body.first_name || user.first_name;
+  user.last_name = req.body.last_name || user.last_name;
+  user.phone_num = req.body.phone_num || user.phone_num;
+  user.email = req.body.email || user.email;
+  user.password_hash = req.body.password_hash || user.password_hash;
+  user.contacts = req.body.contacts || user.contacts;
+  user.meetings = req.body.meetings || user.meetings;
 
   user.save()
     .then(savedUser => res.json(savedUser))
