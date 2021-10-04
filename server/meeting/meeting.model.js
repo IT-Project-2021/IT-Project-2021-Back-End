@@ -19,7 +19,7 @@ const MeetingSchema = new mongoose.Schema({
   location: {
     type: String
   },
-  participants: [String],
+  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
   agenda: [String],
   alerts: [{
     alertTime: {
@@ -54,11 +54,12 @@ MeetingSchema.statics = {
   },
 
   /**
-   * List meegstin in descending order of 'date'.
+   * List meetings in descending order of 'date'.
    * @returns {Promise<Meeting[]>}
    */
   list() {
     return this.find()
+      .populate('participants')
       .sort({ date: -1 })
       .exec();
   }
