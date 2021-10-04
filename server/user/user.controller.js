@@ -1,4 +1,5 @@
 const User = require('./user.model');
+const bcrypt = require('bcryptjs');
 
 /**
  * Load user and append to req.
@@ -30,12 +31,25 @@ function get(req, res) {
  * @property {string[]} req.body.meetings - The meetings of user.
  * @returns {User}
  */
-function create(req, res, next) {
+async function create(req, res, next) {
+  const { first, last, email, password } = req.body;
+  const existingUser = await User.findOne({ email });
+
+  if (existingUser) {
+    return res.status(400).json({
+      errorMessage: 'Email already in use.',
+    });
+  }
+
+  const salt = await bcrypt.genSalt();
+  const passwordHash = await bcrypt.hash(password, salt);
+
   const user = new User({
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    email: req.body.email,
-    password_hash: req.body.password_hash,
+    first_name: first,
+    last_name: last,
+    // eslint-disable-next-line object-shorthand
+    email: email,
+    password_hash: passwordHash,
     contacts: req.body.contacts,
     meetings: req.body.meetings
   });
