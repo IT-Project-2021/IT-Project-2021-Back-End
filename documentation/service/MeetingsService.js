@@ -12,6 +12,7 @@ exports.deleteMeetingId = function(meetingId) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "a;slkdnv923r23",
+  "title" : "Monday Stand-Up",
   "details" : "Details",
   "date" : "2020-05-15T06:35:45Z",
   "location" : "Melbourne",
@@ -42,6 +43,7 @@ exports.getMeetingId = function(meetingId) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "a;slkdnv923r23",
+  "title" : "Monday Stand-Up",
   "details" : "Details",
   "date" : "2020-05-15T06:35:45Z",
   "location" : "Melbourne",
@@ -71,6 +73,7 @@ exports.getMeetings = function() {
     var examples = {};
     examples['application/json'] = {
   "_id" : "a;slkdnv923r23",
+  "title" : "Monday Stand-Up",
   "details" : "Details",
   "date" : "2020-05-15T06:35:45Z",
   "location" : "Melbourne",
@@ -101,6 +104,7 @@ exports.postMeeting = function(body) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "a;slkdnv923r23",
+  "title" : "Monday Stand-Up",
   "details" : "Details",
   "date" : "2020-05-15T06:35:45Z",
   "location" : "Melbourne",
@@ -132,6 +136,7 @@ exports.putMeetingId = function(body,meetingId) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "a;slkdnv923r23",
+  "title" : "Monday Stand-Up",
   "details" : "Details",
   "date" : "2020-05-15T06:35:45Z",
   "location" : "Melbourne",

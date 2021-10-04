@@ -24,7 +24,6 @@ function get(req, res) {
  * Create new user
  * @property {string} req.body.first_name - The first_name of user.
  * @property {string} req.body.last_name - The last_name of user.
- * @property {string} req.body.phone_num - The phone_num of user.
  * @property {string} req.body.email - The email of user.
  * @property {string} req.body.password_hash - The password_hash of user.
  * @property {string[]} req.body.contacts - The contacts of user.
@@ -35,7 +34,6 @@ function create(req, res, next) {
   const user = new User({
     first_name: req.body.first_name,
     last_name: req.body.last_name,
-    phone_num: req.body.phone_num,
     email: req.body.email,
     password_hash: req.body.password_hash,
     contacts: req.body.contacts,
@@ -51,7 +49,6 @@ function create(req, res, next) {
  * Update existing user
  * @property {string} req.body.first_name - The first_name of user.
  * @property {string} req.body.last_name - The last_name of user.
- * @property {string} req.body.phone_num - The phone_num of user.
  * @property {string} req.body.email - The email of user.
  * @property {password_hash} req.body.password_hash - The password_hash of user.
  * @property {string[]} req.body.contacts - The contacts of user.
@@ -62,7 +59,6 @@ function update(req, res, next) {
   const user = req.user;
   user.first_name = req.body.first_name || user.first_name;
   user.last_name = req.body.last_name || user.last_name;
-  user.phone_num = req.body.phone_num || user.phone_num;
   user.email = req.body.email || user.email;
   user.password_hash = req.body.password_hash || user.password_hash;
   user.contacts = req.body.contacts || user.contacts;

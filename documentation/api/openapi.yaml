@@ -570,9 +570,6 @@ components:
         last_name:
           type: string
           example: Doe
-        phone_num:
-          type: string
-          example: "01189998819991197253"
         email:
           type: string
           example: johndoe@gmail.com
@@ -597,7 +594,6 @@ components:
         _id: 6123778d576d702575e97590
         first_name: John
         last_name: Doe
-        phone_num: "01189998819991197253"
         email: johndoe@gmail.com
         password_hash: hunter2
         contacts:
@@ -652,6 +648,9 @@ components:
         _id:
           type: string
           example: 613efb07bcfb116d50665acb
+        title:
+          type: string
+          example: Monday Stand-Up
         details:
           type: string
           example: Details
@@ -684,6 +683,7 @@ components:
             $ref: '#/components/schemas/Meeting_alerts'
       example:
         _id: a;slkdnv923r23
+        title: Monday Stand-Up
         details: Details
         date: 2020-05-15T06:35:45Z
         location: Melbourne

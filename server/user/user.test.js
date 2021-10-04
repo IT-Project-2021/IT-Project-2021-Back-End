@@ -22,7 +22,6 @@ describe('## User APIs', () => {
   let user = {
     first_name: 'John',
     last_name: 'Doe',
-    phone_num: '01189998819991197253',
     email: 'johndoe@gmail.com',
     password_hash: 'hunter2',
     contacts: ['6123785eec27a723da40feae', '6123827fd394f951583f0578'],
@@ -38,7 +37,6 @@ describe('## User APIs', () => {
         .then((res) => {
           expect(res.body.first_name).to.equal(user.first_name);
           expect(res.body.last_name).to.equal(user.last_name);
-          expect(res.body.phone_num).to.equal(user.phone_num);
           expect(res.body.email).to.equal(user.email);
           expect(res.body.password_hash).to.equal(user.password_hash);
           expect(res.body.contacts).to.deep.equal(user.contacts);
@@ -58,7 +56,6 @@ describe('## User APIs', () => {
         .then((res) => {
           expect(res.body.first_name).to.equal(user.first_name);
           expect(res.body.last_name).to.equal(user.last_name);
-          expect(res.body.phone_num).to.equal(user.phone_num);
           expect(res.body.email).to.equal(user.email);
           expect(res.body.password_hash).to.equal(user.password_hash);
           expect(res.body.contacts).to.deep.equal(user.contacts);
@@ -90,7 +87,6 @@ describe('## User APIs', () => {
         .then((res) => {
           expect(res.body.first_name).to.equal('KK');
           expect(res.body.last_name).to.equal(user.last_name);
-          expect(res.body.phone_num).to.equal(user.phone_num);
           expect(res.body.email).to.equal(user.email);
           expect(res.body.password_hash).to.equal(user.password_hash);
           expect(res.body.contacts).to.deep.equal(user.contacts);
@@ -122,7 +118,6 @@ describe('## User APIs', () => {
         .then((res) => {
           expect(res.body.first_name).to.equal('KK');
           expect(res.body.last_name).to.equal(user.last_name);
-          expect(res.body.phone_num).to.equal(user.phone_num);
           expect(res.body.email).to.equal(user.email);
           expect(res.body.password_hash).to.equal(user.password_hash);
           expect(res.body.contacts).to.deep.equal(user.contacts);
