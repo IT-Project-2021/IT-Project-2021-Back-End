@@ -497,7 +497,7 @@ paths:
     post:
       tags:
       - auth
-      summary: Login with username and password
+      summary: Login with email and password
       operationId: postLogin
       requestBody:
         content:
@@ -743,9 +743,9 @@ components:
     auth_login_body:
       type: object
       properties:
-        username:
+        email:
           type: string
-          example: johndoe
+          example: johndoe1@gmail.com
         password:
           type: string
           example: hunter2

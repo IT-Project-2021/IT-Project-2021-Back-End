@@ -1,5 +1,6 @@
 const User = require('./user.model');
 const bcrypt = require('bcryptjs');
+const httpStatus = require('http-status');
 
 /**
  * Load user and append to req.
@@ -36,7 +37,7 @@ async function create(req, res, next) {
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    return res.status(400).json({
+    return res.status(httpStatus.BAD_REQUEST).json({
       errorMessage: 'Email already in use.',
     });
   }

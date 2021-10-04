@@ -10,25 +10,42 @@ chai.config.includeStack = true;
 
 describe('## Auth APIs', () => {
   const validUserCredentials = {
-    username: 'react',
-    password: 'express'
+    email: 'johndoe1@gmail.com',
+    password: 'hunter2'
   };
 
-  const invalidUserCredentials = {
-    username: 'react',
+  const invalidPassword = {
+    email: 'johndoe1@gmail.com',
     password: 'IDontKnow'
+  };
+
+  const invalidEmail = {
+    email: 'johndoe@yahoo.com',
+    password: 'meh'
   };
 
   let jwtToken;
 
   describe('# POST /api/auth/login', () => {
-    it('should return Authentication error', (done) => {
+    it('should return Incorrect password', (done) => {
       request(app)
         .post('/api/auth/login')
-        .send(invalidUserCredentials)
+        .send(invalidPassword)
         .expect(httpStatus.UNAUTHORIZED)
         .then((res) => {
-          expect(res.body.message).to.equal('Authentication error');
+          expect(res.body.errorMessage).to.equal('Incorrect password.');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should return invalid email', (done) => {
+      request(app)
+        .post('/api/auth/login')
+        .send(invalidEmail)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.errorMessage).to.equal('User with that email not found.');
           done();
         })
         .catch(done);
