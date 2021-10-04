@@ -15,7 +15,7 @@ exports.deleteUserId = function(userId) {
   "first_name" : "John",
   "last_name" : "Doe",
   "email" : "johndoe@gmail.com",
-  "password_hash" : "hunter2",
+  "password_hash" : "$2a$10$BQtK9eybr0mbPC2R4cxeaeVx7WK.Z0G1TjI0wKqBGzfnIE6Wa.Dxu",
   "contacts" : [ "6123785eec27a723da40feae", "6123827fd394f951583f0578" ],
   "meetings" : [ "613efb07bcfb116d50665acb", "613efb689b7c8e6ef8fdc4e6" ]
 };
@@ -42,7 +42,7 @@ exports.getUserId = function(userId) {
   "first_name" : "John",
   "last_name" : "Doe",
   "email" : "johndoe@gmail.com",
-  "password_hash" : "hunter2",
+  "password_hash" : "$2a$10$BQtK9eybr0mbPC2R4cxeaeVx7WK.Z0G1TjI0wKqBGzfnIE6Wa.Dxu",
   "contacts" : [ "6123785eec27a723da40feae", "6123827fd394f951583f0578" ],
   "meetings" : [ "613efb07bcfb116d50665acb", "613efb689b7c8e6ef8fdc4e6" ]
 };
@@ -68,7 +68,7 @@ exports.getUsers = function() {
   "first_name" : "John",
   "last_name" : "Doe",
   "email" : "johndoe@gmail.com",
-  "password_hash" : "hunter2",
+  "password_hash" : "$2a$10$BQtK9eybr0mbPC2R4cxeaeVx7WK.Z0G1TjI0wKqBGzfnIE6Wa.Dxu",
   "contacts" : [ "6123785eec27a723da40feae", "6123827fd394f951583f0578" ],
   "meetings" : [ "613efb07bcfb116d50665acb", "613efb689b7c8e6ef8fdc4e6" ]
 };
@@ -84,7 +84,7 @@ exports.getUsers = function() {
 /**
  * Create new user
  *
- * body User  (optional)
+ * body Users_body  (optional)
  * returns User
  **/
 exports.postUsers = function(body) {
@@ -95,7 +95,7 @@ exports.postUsers = function(body) {
   "first_name" : "John",
   "last_name" : "Doe",
   "email" : "johndoe@gmail.com",
-  "password_hash" : "hunter2",
+  "password_hash" : "$2a$10$BQtK9eybr0mbPC2R4cxeaeVx7WK.Z0G1TjI0wKqBGzfnIE6Wa.Dxu",
   "contacts" : [ "6123785eec27a723da40feae", "6123827fd394f951583f0578" ],
   "meetings" : [ "613efb07bcfb116d50665acb", "613efb689b7c8e6ef8fdc4e6" ]
 };
@@ -123,7 +123,7 @@ exports.putUserId = function(body,userId) {
   "first_name" : "John",
   "last_name" : "Doe",
   "email" : "johndoe@gmail.com",
-  "password_hash" : "hunter2",
+  "password_hash" : "$2a$10$BQtK9eybr0mbPC2R4cxeaeVx7WK.Z0G1TjI0wKqBGzfnIE6Wa.Dxu",
   "contacts" : [ "6123785eec27a723da40feae", "6123827fd394f951583f0578" ],
   "meetings" : [ "613efb07bcfb116d50665acb", "613efb689b7c8e6ef8fdc4e6" ]
 };

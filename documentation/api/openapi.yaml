@@ -46,7 +46,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/users_body'
       responses:
         "200":
           description: OK
@@ -575,7 +575,7 @@ components:
           example: johndoe@gmail.com
         password_hash:
           type: string
-          example: hunter2
+          example: $2a$10$BQtK9eybr0mbPC2R4cxeaeVx7WK.Z0G1TjI0wKqBGzfnIE6Wa.Dxu
         contacts:
           type: array
           example:
@@ -595,7 +595,7 @@ components:
         first_name: John
         last_name: Doe
         email: johndoe@gmail.com
-        password_hash: hunter2
+        password_hash: $2a$10$BQtK9eybr0mbPC2R4cxeaeVx7WK.Z0G1TjI0wKqBGzfnIE6Wa.Dxu
         contacts:
         - 6123785eec27a723da40feae
         - 6123827fd394f951583f0578
@@ -708,6 +708,38 @@ components:
           type: string
         stack:
           type: string
+    users_body:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 6123778d576d702575e97590
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: johndoe@gmail.com
+        password:
+          type: string
+          example: hunter2
+        contacts:
+          type: array
+          example:
+          - 6123785eec27a723da40feae
+          - 6123827fd394f951583f0578
+          items:
+            type: string
+        meetings:
+          type: array
+          example:
+          - 613efb07bcfb116d50665acb
+          - 613efb689b7c8e6ef8fdc4e6
+          items:
+            type: string
     auth_login_body:
       type: object
       properties:
