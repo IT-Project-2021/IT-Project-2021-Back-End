@@ -33,8 +33,7 @@ function get(req, res) {
  * @returns {User}
  */
 async function create(req, res, next) {
-  const { first, last, email, password } = req.body;
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({ email: req.body.email });
 
   if (existingUser) {
     return res.status(httpStatus.BAD_REQUEST).json({
@@ -43,13 +42,12 @@ async function create(req, res, next) {
   }
 
   const salt = await bcrypt.genSalt();
-  const passwordHash = await bcrypt.hash(password, salt);
+  const passwordHash = await bcrypt.hash(req.body.password, salt);
 
   const user = new User({
-    first_name: first,
-    last_name: last,
-    // eslint-disable-next-line object-shorthand
-    email: email,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    email: req.body.email,
     password_hash: passwordHash,
     contacts: req.body.contacts,
     meetings: req.body.meetings
@@ -70,12 +68,17 @@ async function create(req, res, next) {
  * @property {string[]} req.body.meetings - The meetings of user.
  * @returns {User}
  */
-function update(req, res, next) {
+async function update(req, res, next) {
   const user = req.user;
+  if (req.body.password) {
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(req.body.password, salt);
+    user.passwordHash = passwordHash;
+  }
+
   user.first_name = req.body.first_name || user.first_name;
   user.last_name = req.body.last_name || user.last_name;
   user.email = req.body.email || user.email;
-  user.password_hash = req.body.password_hash || user.password_hash;
   user.contacts = req.body.contacts || user.contacts;
   user.meetings = req.body.meetings || user.meetings;
 
