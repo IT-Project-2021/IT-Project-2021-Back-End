@@ -22,6 +22,7 @@ function get(req, res) {
 
 /**
  * Create new meeting
+ * @property {string} req.body.user - The user of the meeting.
  * @property {string} req.body.title - The name of the meeting.
  * @property {string} req.body.details - The details of the meeting.
  * @property {date} req.body.date - The date of the meeting.
@@ -32,6 +33,7 @@ function get(req, res) {
  */
 function create(req, res, next) {
   const meeting = new Meeting({
+    user: req.body.user,
     title: req.body.title,
     details: req.body.details,
     date: req.body.date,
@@ -48,6 +50,7 @@ function create(req, res, next) {
 
 /**
  * Update existing meeting
+ * @property {string} req.body.user - The user of the meeting.
  * @property {string} req.body.title - The name of the meeting.
  * @property {string} req.body.details - The details of the meeting.
  * @property {Date} req.body.date - The date of the meeting.
@@ -59,6 +62,7 @@ function create(req, res, next) {
  */
 function update(req, res, next) {
   const meeting = req.meeting;
+  meeting.user = req.body.user || meeting.user;
   meeting.title = req.body.title || meeting.title;
   meeting.details = req.body.details || meeting.details;
   meeting.date = req.body.date || meeting.date;

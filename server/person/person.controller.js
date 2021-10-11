@@ -22,6 +22,7 @@ function get(req, res) {
 
 /**
  * Create new person
+ * @property {string} req.body.user - The user of the person.
  * @property {string} req.body.first_name - The first name of the person.
  * @property {string} req.body.last_name - The last name of the person.
  * @property {string} req.body.phone_num - The phone number of the person.
@@ -32,6 +33,7 @@ function get(req, res) {
  */
 function create(req, res, next) {
   const person = new Person({
+    user: req.body.user,
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     phone_num: req.body.phone_num,
@@ -48,6 +50,7 @@ function create(req, res, next) {
 
 /**
  * Update existing person
+ * @property {string} req.body.user - The user of the person.
  * @property {string} req.body.first_name - The first name of the person.
  * @property {string} req.body.last_name - The last name of the person.
  * @property {string} req.body.phone_num - The phone number of the person.
@@ -59,6 +62,7 @@ function create(req, res, next) {
  */
 function update(req, res, next) {
   const person = req.person;
+  person.user = req.body.user || person.user;
   person.first_name = req.body.first_name || person.first_name;
   person.last_name = req.body.last_name || person.last_name;
   person.phone_num = req.body.phone_num || person.phone_num;

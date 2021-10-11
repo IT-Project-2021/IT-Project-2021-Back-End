@@ -610,6 +610,9 @@ components:
         _id:
           type: string
           example: 6123785eec27a723da40feae
+        user:
+          type: string
+          example: 615a606d1689023f75b4320d
         first_name:
           type: string
           example: John
@@ -633,6 +636,7 @@ components:
           example: A very real man.
       example:
         _id: 6123785eec27a723da40feae
+        user: 615a606d1689023f75b4320d
         first_name: John
         last_name: Doe
         phone_num: "01189998819991197253"
@@ -648,6 +652,9 @@ components:
         _id:
           type: string
           example: 613efb07bcfb116d50665acb
+        user:
+          type: string
+          example: 615a606d1689023f75b4320d
         title:
           type: string
           example: Monday Stand-Up
@@ -683,6 +690,7 @@ components:
             $ref: '#/components/schemas/Meeting_alerts'
       example:
         _id: a;slkdnv923r23
+        user: 615a606d1689023f75b4320d
         title: Monday Stand-Up
         details: Details
         date: 2020-05-15T06:35:45Z

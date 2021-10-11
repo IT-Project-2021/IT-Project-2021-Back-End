@@ -7,6 +7,9 @@ const APIError = require('../helpers/APIError');
  * Person Schema
  */
 const PersonSchema = new mongoose.Schema({
+  user: {
+    type: String
+  },
   first_name: {
     type: String
   },
