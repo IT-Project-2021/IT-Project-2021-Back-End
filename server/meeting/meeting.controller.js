@@ -97,4 +97,17 @@ function remove(req, res, next) {
     .catch(e => next(e));
 }
 
-module.exports = { load, get, create, update, list, remove };
+/**
+ * Get meetings where a specified participant is present
+ */
+function getByParticipantId(req, res, next) {
+  // Returns true if the person is a participant in the meeting, and false otherwise
+  const isParticipant = (meeting, person) => meeting.participants.includes(person);
+
+  const personID = req.params.personId;
+  Meeting.list()
+    .then(meetings => res.json(meetings.filter(meeting => isParticipant(meeting, personID))))
+    .catch(e => next(e));
+}
+
+module.exports = { load, get, create, update, list, remove, getByParticipantId };
