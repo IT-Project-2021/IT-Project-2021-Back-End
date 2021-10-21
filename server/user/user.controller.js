@@ -1,4 +1,6 @@
 const User = require('./user.model');
+const bcrypt = require('bcryptjs');
+const httpStatus = require('http-status');
 
 /**
  * Load user and append to req.
@@ -24,20 +26,29 @@ function get(req, res) {
  * Create new user
  * @property {string} req.body.first_name - The first_name of user.
  * @property {string} req.body.last_name - The last_name of user.
- * @property {string} req.body.phone_num - The phone_num of user.
  * @property {string} req.body.email - The email of user.
  * @property {string} req.body.password_hash - The password_hash of user.
  * @property {string[]} req.body.contacts - The contacts of user.
  * @property {string[]} req.body.meetings - The meetings of user.
  * @returns {User}
  */
-function create(req, res, next) {
+async function create(req, res, next) {
+  const existingUser = await User.findOne({ email: req.body.email });
+
+  if (existingUser) {
+    return res.status(httpStatus.BAD_REQUEST).json({
+      errorMessage: 'Email already in use.',
+    });
+  }
+
+  const salt = await bcrypt.genSalt();
+  const passwordHash = await bcrypt.hash(req.body.password, salt);
+
   const user = new User({
     first_name: req.body.first_name,
     last_name: req.body.last_name,
-    phone_num: req.body.phone_num,
     email: req.body.email,
-    password_hash: req.body.password_hash,
+    password_hash: passwordHash,
     contacts: req.body.contacts,
     meetings: req.body.meetings
   });
@@ -51,20 +62,23 @@ function create(req, res, next) {
  * Update existing user
  * @property {string} req.body.first_name - The first_name of user.
  * @property {string} req.body.last_name - The last_name of user.
- * @property {string} req.body.phone_num - The phone_num of user.
  * @property {string} req.body.email - The email of user.
  * @property {password_hash} req.body.password_hash - The password_hash of user.
  * @property {string[]} req.body.contacts - The contacts of user.
  * @property {string[]} req.body.meetings - The meetings of user.
  * @returns {User}
  */
-function update(req, res, next) {
+async function update(req, res, next) {
   const user = req.user;
+  if (req.body.password) {
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(req.body.password, salt);
+    user.passwordHash = passwordHash;
+  }
+
   user.first_name = req.body.first_name || user.first_name;
   user.last_name = req.body.last_name || user.last_name;
-  user.phone_num = req.body.phone_num || user.phone_num;
   user.email = req.body.email || user.email;
-  user.password_hash = req.body.password_hash || user.password_hash;
   user.contacts = req.body.contacts || user.contacts;
   user.meetings = req.body.meetings || user.meetings;
 

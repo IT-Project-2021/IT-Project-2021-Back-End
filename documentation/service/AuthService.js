@@ -26,7 +26,7 @@ exports.getRandomNumber = function() {
 
 
 /**
- * Login with username and password
+ * Login with email and password
  *
  * body Auth_login_body 
  * returns inline_response_200

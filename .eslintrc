@@ -30,15 +30,16 @@
     ],
     "no-underscore-dangle": [
       0
-    ]
+    ],
+    "consistent-return": "off"
   },
   "env": {
     "node": true,
     "mocha": true
   },
   "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
+    "ecmaVersion": 8,
+    "sourceType": "module",
   },
   "extends": [
     "eslint:recommended",

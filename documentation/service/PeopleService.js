@@ -12,6 +12,7 @@ exports.deletePersonId = function(personId) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "6123785eec27a723da40feae",
+  "user" : "615a606d1689023f75b4320d",
   "first_name" : "John",
   "last_name" : "Doe",
   "phone_num" : "01189998819991197253",
@@ -39,6 +40,7 @@ exports.getPeople = function() {
     var examples = {};
     examples['application/json'] = {
   "_id" : "6123785eec27a723da40feae",
+  "user" : "615a606d1689023f75b4320d",
   "first_name" : "John",
   "last_name" : "Doe",
   "phone_num" : "01189998819991197253",
@@ -67,6 +69,7 @@ exports.getPersonId = function(personId) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "6123785eec27a723da40feae",
+  "user" : "615a606d1689023f75b4320d",
   "first_name" : "John",
   "last_name" : "Doe",
   "phone_num" : "01189998819991197253",
@@ -95,6 +98,7 @@ exports.postPeople = function(body) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "6123785eec27a723da40feae",
+  "user" : "615a606d1689023f75b4320d",
   "first_name" : "John",
   "last_name" : "Doe",
   "phone_num" : "01189998819991197253",
@@ -124,6 +128,7 @@ exports.putPersonId = function(body,personId) {
     var examples = {};
     examples['application/json'] = {
   "_id" : "6123785eec27a723da40feae",
+  "user" : "615a606d1689023f75b4320d",
   "first_name" : "John",
   "last_name" : "Doe",
   "phone_num" : "01189998819991197253",

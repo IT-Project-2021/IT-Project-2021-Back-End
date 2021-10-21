@@ -20,6 +20,10 @@ router.route('/:meetingId')
   /** DELETE /api/meetings/:meetingId - Delete meeting */
   .delete(meetingCtrl.remove);
 
+router.route('/participant/:personId')
+  /** GET /api/meetings/participant/:personId - get a list of meetings with specified participant */
+  .get(meetingCtrl.getByParticipantId);
+
 /** Load meeting when API when API with meetingId route parameter is hit */
 router.param('meetingId', meetingCtrl.load);
 

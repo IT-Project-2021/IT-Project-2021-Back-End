@@ -46,7 +46,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/users_body'
       responses:
         "200":
           description: OK
@@ -497,7 +497,7 @@ paths:
     post:
       tags:
       - auth
-      summary: Login with username and password
+      summary: Login with email and password
       operationId: postLogin
       requestBody:
         content:
@@ -570,15 +570,12 @@ components:
         last_name:
           type: string
           example: Doe
-        phone_num:
-          type: string
-          example: "01189998819991197253"
         email:
           type: string
           example: johndoe@gmail.com
         password_hash:
           type: string
-          example: hunter2
+          example: $2a$10$BQtK9eybr0mbPC2R4cxeaeVx7WK.Z0G1TjI0wKqBGzfnIE6Wa.Dxu
         contacts:
           type: array
           example:
@@ -597,9 +594,8 @@ components:
         _id: 6123778d576d702575e97590
         first_name: John
         last_name: Doe
-        phone_num: "01189998819991197253"
         email: johndoe@gmail.com
-        password_hash: hunter2
+        password_hash: $2a$10$BQtK9eybr0mbPC2R4cxeaeVx7WK.Z0G1TjI0wKqBGzfnIE6Wa.Dxu
         contacts:
         - 6123785eec27a723da40feae
         - 6123827fd394f951583f0578
@@ -614,6 +610,9 @@ components:
         _id:
           type: string
           example: 6123785eec27a723da40feae
+        user:
+          type: string
+          example: 615a606d1689023f75b4320d
         first_name:
           type: string
           example: John
@@ -637,6 +636,7 @@ components:
           example: A very real man.
       example:
         _id: 6123785eec27a723da40feae
+        user: 615a606d1689023f75b4320d
         first_name: John
         last_name: Doe
         phone_num: "01189998819991197253"
@@ -652,6 +652,12 @@ components:
         _id:
           type: string
           example: 613efb07bcfb116d50665acb
+        user:
+          type: string
+          example: 615a606d1689023f75b4320d
+        title:
+          type: string
+          example: Monday Stand-Up
         details:
           type: string
           example: Details
@@ -684,6 +690,8 @@ components:
             $ref: '#/components/schemas/Meeting_alerts'
       example:
         _id: a;slkdnv923r23
+        user: 615a606d1689023f75b4320d
+        title: Monday Stand-Up
         details: Details
         date: 2020-05-15T06:35:45Z
         location: Melbourne
@@ -708,12 +716,44 @@ components:
           type: string
         stack:
           type: string
+    users_body:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 6123778d576d702575e97590
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: johndoe@gmail.com
+        password:
+          type: string
+          example: hunter2
+        contacts:
+          type: array
+          example:
+          - 6123785eec27a723da40feae
+          - 6123827fd394f951583f0578
+          items:
+            type: string
+        meetings:
+          type: array
+          example:
+          - 613efb07bcfb116d50665acb
+          - 613efb689b7c8e6ef8fdc4e6
+          items:
+            type: string
     auth_login_body:
       type: object
       properties:
-        username:
+        email:
           type: string
-          example: johndoe
+          example: johndoe1@gmail.com
         password:
           type: string
           example: hunter2

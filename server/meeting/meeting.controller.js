@@ -22,6 +22,7 @@ function get(req, res) {
 
 /**
  * Create new meeting
+ * @property {string} req.body.user - The user of the meeting.
  * @property {string} req.body.title - The name of the meeting.
  * @property {string} req.body.details - The details of the meeting.
  * @property {date} req.body.date - The date of the meeting.
@@ -32,6 +33,7 @@ function get(req, res) {
  */
 function create(req, res, next) {
   const meeting = new Meeting({
+    user: req.body.user,
     title: req.body.title,
     details: req.body.details,
     date: req.body.date,
@@ -48,6 +50,7 @@ function create(req, res, next) {
 
 /**
  * Update existing meeting
+ * @property {string} req.body.user - The user of the meeting.
  * @property {string} req.body.title - The name of the meeting.
  * @property {string} req.body.details - The details of the meeting.
  * @property {Date} req.body.date - The date of the meeting.
@@ -59,6 +62,7 @@ function create(req, res, next) {
  */
 function update(req, res, next) {
   const meeting = req.meeting;
+  meeting.user = req.body.user || meeting.user;
   meeting.title = req.body.title || meeting.title;
   meeting.details = req.body.details || meeting.details;
   meeting.date = req.body.date || meeting.date;
@@ -93,4 +97,17 @@ function remove(req, res, next) {
     .catch(e => next(e));
 }
 
-module.exports = { load, get, create, update, list, remove };
+/**
+ * Get meetings where a specified participant is present
+ */
+function getByParticipantId(req, res, next) {
+  // Returns true if the person is a participant in the meeting, and false otherwise
+  const isParticipant = (meeting, person) => meeting.participants.includes(person);
+
+  const personID = req.params.personId;
+  Meeting.list()
+    .then(meetings => res.json(meetings.filter(meeting => isParticipant(meeting, personID))))
+    .catch(e => next(e));
+}
+
+module.exports = { load, get, create, update, list, remove, getByParticipantId };
