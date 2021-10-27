@@ -1,5 +1,7 @@
 const express = require('express');
 const meetingCtrl = require('./meeting.controller');
+const expressJwt = require('express-jwt');
+const config = require('../../config/config');
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -8,7 +10,8 @@ router.route('/')
   .get(meetingCtrl.list)
 
   /** POST /api/meetings - Create new meeting */
-  .post(meetingCtrl.create);
+  // SECURE ROUTE
+  .post(expressJwt({ secret: config.jwtSecret }), meetingCtrl.create);
 
 router.route('/:meetingId')
   /** GET /api/meetings/:meetingId - Get meeting */

@@ -1,4 +1,6 @@
 const Meeting = require('./meeting.model');
+const userHelpers = require('../helpers/userHelpers');
+const httpStatus = require('http-status');
 
 /**
  * Load meeting and append to req.
@@ -32,20 +34,28 @@ function get(req, res) {
  * @property {object[]} req.body.alerts - The alerts of the meeting.
  */
 function create(req, res, next) {
-  const meeting = new Meeting({
-    user: req.body.user,
-    title: req.body.title,
-    details: req.body.details,
-    date: req.body.date,
-    location: req.body.location,
-    participants: req.body.participants,
-    agenda: req.body.agenda,
-    alerts: req.body.alerts,
-  });
-
-  meeting.save()
-    .then(savedMeeting => res.json(savedMeeting))
-    .catch(e => next(e));
+  userHelpers.getUserID(req.user)
+    .then((response) => {
+      const userID = response;
+      const meeting = new Meeting({
+        user: userID,
+        title: req.body.title,
+        details: req.body.details,
+        date: req.body.date,
+        location: req.body.location,
+        participants: req.body.participants,
+        agenda: req.body.agenda,
+        alerts: req.body.alerts,
+      });
+      meeting.save()
+        .then(savedMeeting => res.json(savedMeeting))
+        .catch(e => next(e));
+    })
+    .catch(() => {
+      // this error occurs if there was some problem with user authentication
+      // (e.g. missing token, bad token)
+      res.status(httpStatus.UNAUTHORIZED);
+    });
 }
 
 /**

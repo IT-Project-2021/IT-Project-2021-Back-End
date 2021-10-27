@@ -30,10 +30,14 @@ describe('## Meeting APIs', () => {
     alerts: [{ alertTime: '2020-05-15T06:35:45.000Z', alertSetting: 'email' }]
   };
 
+  // this is the token for the user johndoe1@gmail.com - userID above
+  const validToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2UxQGdtYWlsLmNvbSIsImlhdCI6MTYzNDcxOTQxNn0.udmTskz0y2d6cpnoI6TDQ-tTRj9U8QWRynFsRZppijw';
+
   describe('# POST /api/meetings', () => {
     it('should create a new meeting', (done) => {
       request(app)
         .post('/api/meetings')
+        .set('Authorization', validToken)
         .send(meeting)
         .expect(httpStatus.OK)
         .then((res) => {
@@ -47,6 +51,18 @@ describe('## Meeting APIs', () => {
           expect(res.body.alerts.alertTime).to.equal(meeting.alerts.alertTime);
           expect(res.body.alerts.alertSetting).to.equal(meeting.alerts.alertSetting);
           meeting = res.body;
+          done();
+        })
+        .catch(done);
+    }).timeout(15000);
+
+    it('should fail to create a new meeting due to missing authorisation', (done) => {
+      request(app)
+        .post('/api/meetings')
+        .send(meeting)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
           done();
         })
         .catch(done);
