@@ -107,7 +107,8 @@ describe('## User APIs', () => {
           done();
         })
         .catch(done);
-    });
+    })
+    .timeout(3000);
   });
 
   describe('# GET /api/users/', () => {
@@ -121,7 +122,7 @@ describe('## User APIs', () => {
         })
         .catch(done);
     })
-    .timeout(3000);
+    .timeout(4000);
   });
 
   describe('# DELETE /api/users/:userId', () => {

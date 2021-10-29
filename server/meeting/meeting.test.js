@@ -75,6 +75,7 @@ describe('## Meeting APIs', () => {
     it('should get meeting details', (done) => {
       request(app)
         .get(`/api/meetings/${meeting._id}`)
+        .set('Authorization', validToken)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.user).to.equal(meeting.user);
@@ -86,6 +87,29 @@ describe('## Meeting APIs', () => {
           expect(res.body.agenda).to.deep.equal(meeting.agenda);
           expect(res.body.alerts.alertTime).to.equal(meeting.alerts.alertTime);
           expect(res.body.alerts.alertSetting).to.equal(meeting.alerts.alertSetting);
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should fail to get meeting details (missing token)', (done) => {
+      request(app)
+        .get(`/api/meetings/${meeting._id}`)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should fail to get meeting details (bad token)', (done) => {
+      request(app)
+        .get(`/api/meetings/${meeting._id}`)
+        .set('Authorization', blankUserToken)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
           done();
         })
         .catch(done);

@@ -16,7 +16,8 @@ router.route('/')
 
 router.route('/:meetingId')
   /** GET /api/meetings/:meetingId - Get meeting */
-  .get(meetingCtrl.get)
+  // SECURE ROUTE
+  .get(expressJwt({ secret: config.jwtSecret }), meetingCtrl.get)
 
   /** PUT /api/meetings/:meetingId - Update meeting */
   .put(meetingCtrl.update)

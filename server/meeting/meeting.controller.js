@@ -19,7 +19,17 @@ function load(req, res, next, id) {
  * @returns {Meeting}
  */
 function get(req, res) {
-  return res.json(req.meeting);
+  userHelpers.getUserID(req.user)
+    .then((response) => {
+      const userID = response;
+      if (req.meeting.user && (userID.toString() === req.meeting.user.toString())) {
+        return res.json(req.meeting);
+      }
+      // user ID mismatch
+      return res.status(httpStatus.UNAUTHORIZED).json({
+        message: 'Unauthorized'
+      });
+    });
 }
 
 /**
