@@ -46,7 +46,8 @@ describe('## User APIs', () => {
           done();
         })
         .catch(done);
-    });
+    })
+    .timeout(4000);
     it('should report error with message - Email already in use', (done) => {
       request(app)
         .post('/api/users')

@@ -20,7 +20,6 @@ after((done) => {
 
 describe('## Person APIs', () => {
   let person = {
-    user: '615a606d1689023f75b4320d',
     first_name: 'John',
     last_name: 'Doe',
     phone_num: '01189998819991197253',
@@ -30,14 +29,19 @@ describe('## Person APIs', () => {
     notes: 'A very real man.'
   };
 
+  // this is the token for the user johndoe1@gmail.com - userID above
+  const validToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2UxQGdtYWlsLmNvbSIsImlhdCI6MTYzNDcxOTQxNn0.udmTskz0y2d6cpnoI6TDQ-tTRj9U8QWRynFsRZppijw';
+  const requestingUserID = '615a606d1689023f75b4320d';
+
   describe('# POST /api/people', () => {
     it('should create a new person', (done) => {
       request(app)
         .post('/api/people')
+        .set('Authorization', validToken)
         .send(person)
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body.user).to.equal(person.user);
+          expect(res.body.user).to.equal(requestingUserID);
           expect(res.body.first_name).to.equal(person.first_name);
           expect(res.body.last_name).to.equal(person.last_name);
           expect(res.body.phone_num).to.equal(person.phone_num);
@@ -46,6 +50,17 @@ describe('## Person APIs', () => {
           expect(res.body.position).to.equal(person.position);
           expect(res.body.notes).to.equal(person.notes);
           person = res.body;
+          done();
+        })
+        .catch(done);
+    });
+    it('should fail to create a new person (missing auth)', (done) => {
+      request(app)
+        .post('/api/people')
+        .send(person)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
           done();
         })
         .catch(done);

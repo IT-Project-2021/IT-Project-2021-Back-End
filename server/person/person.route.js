@@ -1,5 +1,7 @@
 const express = require('express');
 const personCtrl = require('./person.controller');
+const expressJwt = require('express-jwt');
+const config = require('../../config/config');
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -8,7 +10,8 @@ router.route('/')
   .get(personCtrl.list)
 
   /** POST /api/people - Create new person */
-  .post(personCtrl.create);
+  // SECURE ROUTE
+  .post(expressJwt({ secret: config.jwtSecret }), personCtrl.create);
 
 router.route('/:personId')
   /** GET /api/people/:personId - Get person */

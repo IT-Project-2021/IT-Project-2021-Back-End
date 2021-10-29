@@ -1,4 +1,5 @@
 const Person = require('./person.model');
+const userHelpers = require('../helpers/userHelpers');
 
 /**
  * Load person and append to req.
@@ -32,20 +33,23 @@ function get(req, res) {
  * @property {string} req.body.notes - Notes about the person
  */
 function create(req, res, next) {
-  const person = new Person({
-    user: req.body.user,
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    phone_num: req.body.phone_num,
-    email: req.body.email,
-    company: req.body.company,
-    position: req.body.position,
-    notes: req.body.notes
-  });
-
-  person.save()
-    .then(savedPerson => res.json(savedPerson))
-    .catch(e => next(e));
+  userHelpers
+    .getUserID(req.user)
+    .then((userID) => {
+      const person = new Person({
+        user: userID,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        phone_num: req.body.phone_num,
+        email: req.body.email,
+        company: req.body.company,
+        position: req.body.position,
+        notes: req.body.notes
+      });
+      person.save()
+        .then(savedPerson => res.json(savedPerson))
+        .catch(e => next(e));
+    });
 }
 
 /**
@@ -81,14 +85,13 @@ function update(req, res, next) {
  * @returns {Person[]}
  */
 function list(req, res, next) {
-  // everything works fine when this line is gone, and it doesn't
-  // look like any variables are being assigned?
-  // i didn't totally remove it just in case though
-  // const { } = req.query;
-
   Person.list()
-    .then(people => res.json(people))
-    .catch(e => next(e));
+  .then(people => res.json(people))
+  .catch(e => next(e));
+  // userHelpers
+  //   .getUserID(req.user)
+  //   .then((userID) => {
+  //   })
 }
 
 /**
