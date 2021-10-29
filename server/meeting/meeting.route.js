@@ -7,7 +7,8 @@ const router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/')
   /** GET /api/meetings - Get list of all meetings */
-  .get(meetingCtrl.list)
+  // SECURE ROUTE
+  .get(expressJwt({ secret: config.jwtSecret }), meetingCtrl.list)
 
   /** POST /api/meetings - Create new meeting */
   // SECURE ROUTE

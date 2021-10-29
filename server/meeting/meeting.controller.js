@@ -91,8 +91,21 @@ function update(req, res, next) {
  * @returns {Meeting[]}
  */
 function list(req, res, next) {
-  Meeting.list()
-    .then(meetings => res.json(meetings))
+  // Unauthorised if no token in the request
+  if (!req.user) {
+    res.status(httpStatus.UNAUTHORIZED);
+  }
+
+  // Get the user ID from the token saved
+  userHelpers.getUserID(req.user)
+    .then((userID) => {
+      Meeting.list()
+      .then((meetings) => {
+        res.json(meetings
+          .filter(meeting => meeting.user && (meeting.user.toString() === userID.toString()))
+        );
+      });
+    })
     .catch(e => next(e));
 }
 

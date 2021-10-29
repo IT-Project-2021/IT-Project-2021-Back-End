@@ -37,7 +37,8 @@ describe('## Auth APIs', () => {
           done();
         })
         .catch(done);
-    });
+    })
+    .timeout(3000);
 
     it('should return invalid email', (done) => {
       request(app)

@@ -8,7 +8,7 @@ const APIError = require('../helpers/APIError');
  */
 const MeetingSchema = new mongoose.Schema({
   user: {
-    type: String
+    type: mongoose.Schema.Types.ObjectId, ref: 'User'
   },
   title: {
     type: String

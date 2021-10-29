@@ -120,7 +120,8 @@ describe('## User APIs', () => {
           done();
         })
         .catch(done);
-    });
+    })
+    .timeout(3000);
   });
 
   describe('# DELETE /api/users/:userId', () => {
@@ -138,6 +139,7 @@ describe('## User APIs', () => {
           done();
         })
         .catch(done);
-    });
+    })
+    .timeout(3000);
   });
 });
