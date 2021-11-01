@@ -7,7 +7,8 @@ const router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/')
   /** GET /api/people - Get list of all people */
-  .get(personCtrl.list)
+  // SECURE ROUTE
+  .get(expressJwt({ secret: config.jwtSecret }), personCtrl.list)
 
   /** POST /api/people - Create new person */
   // SECURE ROUTE

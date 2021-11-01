@@ -33,7 +33,7 @@ describe('## Person APIs', () => {
   const validToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2UxQGdtYWlsLmNvbSIsImlhdCI6MTYzNDcxOTQxNn0.udmTskz0y2d6cpnoI6TDQ-tTRj9U8QWRynFsRZppijw';
   const requestingUserID = '615a606d1689023f75b4320d';
 
-  // this is the token for a different user
+  // this is the token for a different user (with no contacts saved)
   const wrongUserToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBvc3RtYW51c2VyQGdtYWlsLmNvbSIsImlhdCI6MTYzNTUxMjA3N30.-3gGN4hj5wHXErGH08gbHcO_2-jECgjtK6qciMaFK4k';
 
   describe('# POST /api/people', () => {
@@ -148,9 +148,36 @@ describe('## Person APIs', () => {
     it('should get all people', (done) => {
       request(app)
         .get('/api/people')
+        .set('Authorization', validToken)
+        .expect(httpStatus.OK)
+        .then((res) => {
+          // check that the response is an array of contacts beloning to the user
+          expect(res.body).to.be.an('array');
+          for (let i = 0; i < res.body.length; i += 1) {
+            expect(res.body[i].user.toString()).to.equal(requestingUserID);
+          }
+          done();
+        })
+        .catch(done);
+    });
+    it('should get all people (for a user with no contacts)', (done) => {
+      request(app)
+        .get('/api/people')
+        .set('Authorization', wrongUserToken)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body).to.be.an('array');
+          expect(res.body).to.have.lengthOf(0);
+          done();
+        })
+        .catch(done);
+    });
+    it('should fail to get all people (missing auth)', (done) => {
+      request(app)
+        .get('/api/people')
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
           done();
         })
         .catch(done);

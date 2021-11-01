@@ -95,13 +95,17 @@ function update(req, res, next) {
  * @returns {Person[]}
  */
 function list(req, res, next) {
-  Person.list()
-  .then(people => res.json(people))
-  .catch(e => next(e));
-  // userHelpers
-  //   .getUserID(req.user)
-  //   .then((userID) => {
-  //   })
+  userHelpers
+    .getUserID(req.user)
+    .then((userID) => {
+      Person.list()
+        .then((people) => {
+          res.json(people
+            .filter(person => person.user && (person.user.toString() === userID.toString()))
+          );
+        });
+    })
+    .catch(e => next(e));
 }
 
 /**
