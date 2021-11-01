@@ -15,7 +15,8 @@ router.route('/')
 
 router.route('/:personId')
   /** GET /api/people/:personId - Get person */
-  .get(personCtrl.get)
+  // SECURE ROUTE
+  .get(expressJwt({ secret: config.jwtSecret }), personCtrl.get)
 
   /** PUT /api/people/:personId - Update person */
   .put(personCtrl.update)

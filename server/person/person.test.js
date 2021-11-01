@@ -33,6 +33,9 @@ describe('## Person APIs', () => {
   const validToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2UxQGdtYWlsLmNvbSIsImlhdCI6MTYzNDcxOTQxNn0.udmTskz0y2d6cpnoI6TDQ-tTRj9U8QWRynFsRZppijw';
   const requestingUserID = '615a606d1689023f75b4320d';
 
+  // this is the token for a different user
+  const wrongUserToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBvc3RtYW51c2VyQGdtYWlsLmNvbSIsImlhdCI6MTYzNTUxMjA3N30.-3gGN4hj5wHXErGH08gbHcO_2-jECgjtK6qciMaFK4k';
+
   describe('# POST /api/people', () => {
     it('should create a new person', (done) => {
       request(app)
@@ -71,6 +74,7 @@ describe('## Person APIs', () => {
     it('should get person details', (done) => {
       request(app)
         .get(`/api/people/${person._id}`)
+        .set('Authorization', validToken)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.user).to.equal(person.user);
@@ -85,7 +89,27 @@ describe('## Person APIs', () => {
         })
         .catch(done);
     });
-
+    it('should fail to get person details (bad auth)', (done) => {
+      request(app)
+        .get(`/api/people/${person._id}`)
+        .set('Authorization', wrongUserToken)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    });
+    it('should fail to get person details (missing auth)', (done) => {
+      request(app)
+        .get(`/api/people/${person._id}`)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    });
     it('should report error with message - Not found, when person does not exist', (done) => {
       request(app)
         .get('/api/people/888888888888888888888888')

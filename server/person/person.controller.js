@@ -1,5 +1,6 @@
 const Person = require('./person.model');
 const userHelpers = require('../helpers/userHelpers');
+const httpStatus = require('http-status');
 
 /**
  * Load person and append to req.
@@ -18,7 +19,16 @@ function load(req, res, next, id) {
  * @returns {Person}
  */
 function get(req, res) {
-  return res.json(req.person);
+  // Check that the person "belongs" to logged in user
+  userHelpers.getUserID(req.user)
+    .then((userID) => {
+      if (req.person.user && (userID.toString() === req.person.user.toString())) {
+        return res.json(req.person);
+      }
+      return res
+        .status(httpStatus.UNAUTHORIZED)
+        .json({ message: 'Unauthorized' });
+    });
 }
 
 /**
