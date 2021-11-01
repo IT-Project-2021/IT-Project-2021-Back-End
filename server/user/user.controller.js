@@ -1,6 +1,7 @@
 const User = require('./user.model');
 const bcrypt = require('bcryptjs');
 const httpStatus = require('http-status');
+const userHelpers = require('../helpers/userHelpers');
 
 /**
  * Load user and append to req.
@@ -8,7 +9,8 @@ const httpStatus = require('http-status');
 function load(req, res, next, id) {
   User.get(id)
     .then((user) => {
-      req.user = user; // eslint-disable-line no-param-reassign
+      // Renamed user to userInfo so that req.user can be used for auth
+      req.userInfo = user; // eslint-disable-line no-param-reassign
       return next();
     })
     .catch(e => next(e));
@@ -19,7 +21,17 @@ function load(req, res, next, id) {
  * @returns {User}
  */
 function get(req, res) {
-  return res.json(req.user);
+  userHelpers
+    .getUserID(req.user)
+    .then((userID) => {
+      if (req.userInfo._id && (userID.toString() === req.userInfo._id.toString())) {
+        return res.json(req.userInfo);
+      }
+      // user ID mismatch
+      return res
+        .status(httpStatus.UNAUTHORIZED)
+        .json({ message: 'Unauthorized' });
+    });
 }
 
 /**
@@ -69,7 +81,7 @@ async function create(req, res, next) {
  * @returns {User}
  */
 async function update(req, res, next) {
-  const user = req.user;
+  const user = req.userInfo;
   if (req.body.password) {
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(req.body.password, salt);
@@ -102,7 +114,7 @@ function list(req, res, next) {
  * @returns {User}
  */
 function remove(req, res, next) {
-  const user = req.user;
+  const user = req.userInfo;
   user.remove()
     .then(deletedUser => res.json(deletedUser))
     .catch(e => next(e));

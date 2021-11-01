@@ -62,17 +62,43 @@ describe('## User APIs', () => {
   });
 
   describe('# GET /api/users/:userId', () => {
+    const newLoginDetails = {
+      email: 'johndoe@gmail.com',
+      password: 'hunter2'
+    };
+    let newToken;
+
     it('should get user details', (done) => {
+      // Setup by requesting token of the new user
+      request(app)
+      .post('/api/auth/login')
+      .send(newLoginDetails)
+      .then((res) => {
+        newToken = `Bearer ${res.body.token}`;
+        // Once token is retrieved, try and get user details
+        request(app)
+          .get(`/api/users/${user._id}`)
+          .set('Authorization', newToken)
+          .expect(httpStatus.OK)
+          .then((response) => {
+            expect(response.body.first_name).to.equal(user.first_name);
+            expect(response.body.last_name).to.equal(user.last_name);
+            expect(response.body.email).to.equal(user.email);
+            expect(response.body.password_hash);
+            expect(response.body.contacts).to.deep.equal(user.contacts);
+            expect(response.body.meetings).to.deep.equal(user.meetings);
+            done();
+          })
+          .catch(done);
+      });
+    });
+
+    it('should get fail to get user details (missing auth)', (done) => {
       request(app)
         .get(`/api/users/${user._id}`)
-        .expect(httpStatus.OK)
+        .expect(httpStatus.UNAUTHORIZED)
         .then((res) => {
-          expect(res.body.first_name).to.equal(user.first_name);
-          expect(res.body.last_name).to.equal(user.last_name);
-          expect(res.body.email).to.equal(user.email);
-          expect(res.body.password_hash);
-          expect(res.body.contacts).to.deep.equal(user.contacts);
-          expect(res.body.meetings).to.deep.equal(user.meetings);
+          expect(res.body.message).to.equal('Unauthorized');
           done();
         })
         .catch(done);
