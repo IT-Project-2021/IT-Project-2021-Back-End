@@ -27,7 +27,8 @@ router.route('/:meetingId')
 
 router.route('/participant/:personId')
   /** GET /api/meetings/participant/:personId - get a list of meetings with specified participant */
-  .get(meetingCtrl.getByParticipantId);
+  // SECURE ROUTE
+  .get(expressJwt({ secret: config.jwtSecret }), meetingCtrl.getByParticipantId);
 
 /** Load meeting when API when API with meetingId route parameter is hit */
 router.param('meetingId', meetingCtrl.load);

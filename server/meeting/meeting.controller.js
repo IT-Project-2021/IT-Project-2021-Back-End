@@ -134,13 +134,32 @@ function remove(req, res, next) {
  * Get meetings where a specified participant is present
  */
 function getByParticipantId(req, res, next) {
-  // Returns true if the person is a participant in the meeting, and false otherwise
-  const isParticipant = (meeting, person) => meeting.participants.includes(person);
-
+  const getMeetingParticipants = meeting => meeting.participants
+    .map(participant => participant._id.toString());
   const personID = req.params.personId;
-  Meeting.list()
-    .then(meetings => res.json(meetings.filter(meeting => isParticipant(meeting, personID))))
-    .catch(e => next(e));
+  // Returns true if the person is a participant in the meeting, and false otherwise
+  const isParticipant = (meeting, person) => {
+    if (getMeetingParticipants(meeting).includes(person)) {
+      return true;
+    }
+    return false;
+  };
+  // Ensure the participant "belongs" to the user
+  userHelpers
+    .participantBelongsTo(req.user, personID)
+    .then((belongs) => {
+      if (belongs === true) {
+        Meeting.list()
+        .then(meetings => res
+          .json(meetings.filter(meeting => isParticipant(meeting, personID.toString())))
+        )
+        .catch(e => next(e));
+      } else {
+        return res
+          .status(httpStatus.UNAUTHORIZED)
+          .json({ message: 'Unauthorized' });
+      }
+    });
 }
 
 module.exports = { load, get, create, update, list, remove, getByParticipantId };
