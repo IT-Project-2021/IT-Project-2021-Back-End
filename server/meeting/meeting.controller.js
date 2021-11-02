@@ -66,6 +66,7 @@ function create(req, res, next) {
       // (e.g. missing token, bad token)
       res.status(httpStatus.UNAUTHORIZED);
     });
+
 }
 
 /**

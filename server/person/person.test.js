@@ -20,6 +20,7 @@ after((done) => {
 
 describe('## Person APIs', () => {
   let person = {
+    user: '615a606d1689023f75b4320d',
     first_name: 'John',
     last_name: 'Doe',
     phone_num: '01189998819991197253',
@@ -45,6 +46,7 @@ describe('## Person APIs', () => {
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.user).to.equal(requestingUserID);
+          expect(res.body.user).to.equal(person.user);
           expect(res.body.first_name).to.equal(person.first_name);
           expect(res.body.last_name).to.equal(person.last_name);
           expect(res.body.phone_num).to.equal(person.phone_num);

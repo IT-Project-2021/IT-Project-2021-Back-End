@@ -40,6 +40,7 @@ describe('## Auth APIs', () => {
     })
     .timeout(3000);
 
+
     it('should return invalid email', (done) => {
       request(app)
         .post('/api/auth/login')

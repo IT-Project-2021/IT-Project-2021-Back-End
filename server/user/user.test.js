@@ -59,6 +59,17 @@ describe('## User APIs', () => {
         })
         .catch(done);
     });
+    it('should report error with message - Email already in use', (done) => {
+      request(app)
+        .post('/api/users')
+        .send(newUser)
+        .expect(httpStatus.BAD_REQUEST)
+        .then((res) => {
+          expect(res.body.errorMessage).to.equal('Email already in use.');
+          done();
+        })
+        .catch(done);
+    });
   });
 
   describe('# GET /api/users/:userId', () => {
