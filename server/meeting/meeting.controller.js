@@ -27,7 +27,7 @@ function get(req, res) {
       }
       // user ID mismatch
       return res.status(httpStatus.UNAUTHORIZED).json({
-        message: 'Unauthorized'
+        message: 'ID Mismatch'
       });
     });
 }
@@ -66,7 +66,6 @@ function create(req, res, next) {
       // (e.g. missing token, bad token)
       res.status(httpStatus.UNAUTHORIZED);
     });
-
 }
 
 /**

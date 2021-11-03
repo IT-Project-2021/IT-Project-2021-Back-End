@@ -103,13 +103,13 @@ describe('## Meeting APIs', () => {
         .catch(done);
     });
 
-    it('should fail to get meeting details (bad token)', (done) => {
+    it('should fail to get meeting details (wrong user)', (done) => {
       request(app)
         .get(`/api/meetings/${meeting._id}`)
         .set('Authorization', blankUserToken)
         .expect(httpStatus.UNAUTHORIZED)
         .then((res) => {
-          expect(res.body.message).to.equal('Unauthorized');
+          expect(res.body.message).to.equal('ID Mismatch');
           done();
         })
         .catch(done);

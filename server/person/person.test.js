@@ -91,13 +91,13 @@ describe('## Person APIs', () => {
         })
         .catch(done);
     });
-    it('should fail to get person details (bad auth)', (done) => {
+    it('should fail to get person details (wrong user)', (done) => {
       request(app)
         .get(`/api/people/${person._id}`)
         .set('Authorization', wrongUserToken)
         .expect(httpStatus.UNAUTHORIZED)
         .then((res) => {
-          expect(res.body.message).to.equal('Unauthorized');
+          expect(res.body.message).to.equal('ID Mismatch');
           done();
         })
         .catch(done);
