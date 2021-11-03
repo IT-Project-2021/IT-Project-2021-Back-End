@@ -8,7 +8,7 @@ const APIError = require('../helpers/APIError');
  */
 const MeetingSchema = new mongoose.Schema({
   user: {
-    type: String
+    type: mongoose.Schema.Types.ObjectId, ref: 'User'
   },
   title: {
     type: String
@@ -22,7 +22,7 @@ const MeetingSchema = new mongoose.Schema({
   location: {
     type: String
   },
-  participants: [String],
+  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
   agenda: [String],
   alerts: [{
     alertTime: {
@@ -57,11 +57,12 @@ MeetingSchema.statics = {
   },
 
   /**
-   * List meegstin in descending order of 'date'.
+   * List meetings in descending order of 'date'.
    * @returns {Promise<Meeting[]>}
    */
   list() {
     return this.find()
+      .populate('participants')
       .sort({ date: -1 })
       .exec();
   }

@@ -30,10 +30,16 @@ describe('## Meeting APIs', () => {
     alerts: [{ alertTime: '2020-05-15T06:35:45.000Z', alertSetting: 'email' }]
   };
 
+  // this is the token for the user johndoe1@gmail.com - userID above
+  const validToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2UxQGdtYWlsLmNvbSIsImlhdCI6MTYzNDcxOTQxNn0.udmTskz0y2d6cpnoI6TDQ-tTRj9U8QWRynFsRZppijw';
+  // this token is for the user postmanuser@gmail.com, who should have no meetings set
+  const blankUserToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBvc3RtYW51c2VyQGdtYWlsLmNvbSIsImlhdCI6MTYzNTUxMjA3N30.-3gGN4hj5wHXErGH08gbHcO_2-jECgjtK6qciMaFK4k';
+
   describe('# POST /api/meetings', () => {
     it('should create a new meeting', (done) => {
       request(app)
         .post('/api/meetings')
+        .set('Authorization', validToken)
         .send(meeting)
         .expect(httpStatus.OK)
         .then((res) => {
@@ -51,12 +57,25 @@ describe('## Meeting APIs', () => {
         })
         .catch(done);
     }).timeout(15000);
+
+    it('should fail to create a new meeting due to missing authorisation', (done) => {
+      request(app)
+        .post('/api/meetings')
+        .send(meeting)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    }).timeout(15000);
   });
 
   describe('# GET /api/meetings/:meetingId', () => {
     it('should get meeting details', (done) => {
       request(app)
         .get(`/api/meetings/${meeting._id}`)
+        .set('Authorization', validToken)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.user).to.equal(meeting.user);
@@ -68,6 +87,29 @@ describe('## Meeting APIs', () => {
           expect(res.body.agenda).to.deep.equal(meeting.agenda);
           expect(res.body.alerts.alertTime).to.equal(meeting.alerts.alertTime);
           expect(res.body.alerts.alertSetting).to.equal(meeting.alerts.alertSetting);
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should fail to get meeting details (missing token)', (done) => {
+      request(app)
+        .get(`/api/meetings/${meeting._id}`)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should fail to get meeting details (wrong user)', (done) => {
+      request(app)
+        .get(`/api/meetings/${meeting._id}`)
+        .set('Authorization', blankUserToken)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('ID Mismatch');
           done();
         })
         .catch(done);
@@ -109,12 +151,35 @@ describe('## Meeting APIs', () => {
   });
 
   describe('# GET /api/meetings/', () => {
-    it('should get all meetings', (done) => {
+    it('should get all meetings for John Doe', (done) => {
       request(app)
         .get('/api/meetings')
+        .set('Authorization', validToken)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body).to.be.an('array');
+          done();
+        })
+        .catch(done);
+    });
+    it('should get all meetings for Jane Doe', (done) => {
+      request(app)
+        .get('/api/meetings')
+        .set('Authorization', blankUserToken)
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.be.an('array');
+          expect(res.body).to.have.lengthOf(0);
+          done();
+        })
+        .catch(done);
+    });
+    it('should fail to get all meetings (missing authorisation)', (done) => {
+      request(app)
+        .get('/api/meetings')
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
           done();
         })
         .catch(done);

@@ -19,8 +19,8 @@ const UserSchema = new mongoose.Schema({
   password_hash: {
     type: String,
   },
-  contacts: [String],
-  meetings: [String]
+  contacts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
+  meetings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meeting' }]
 });
 
 /**
@@ -63,6 +63,7 @@ UserSchema.statics = {
    */
   list() {
     return this.find()
+      .populate(['contacts', 'meetings'])
       .sort({ last_name: -1 })
       .exec();
   }

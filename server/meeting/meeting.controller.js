@@ -1,4 +1,6 @@
 const Meeting = require('./meeting.model');
+const userHelpers = require('../helpers/userHelpers');
+const httpStatus = require('http-status');
 
 /**
  * Load meeting and append to req.
@@ -17,7 +19,17 @@ function load(req, res, next, id) {
  * @returns {Meeting}
  */
 function get(req, res) {
-  return res.json(req.meeting);
+  userHelpers.getUserID(req.user)
+    .then((response) => {
+      const userID = response;
+      if (req.meeting.user && (userID.toString() === req.meeting.user.toString())) {
+        return res.json(req.meeting);
+      }
+      // user ID mismatch
+      return res.status(httpStatus.UNAUTHORIZED).json({
+        message: 'ID Mismatch'
+      });
+    });
 }
 
 /**
@@ -32,20 +44,28 @@ function get(req, res) {
  * @property {object[]} req.body.alerts - The alerts of the meeting.
  */
 function create(req, res, next) {
-  const meeting = new Meeting({
-    user: req.body.user,
-    title: req.body.title,
-    details: req.body.details,
-    date: req.body.date,
-    location: req.body.location,
-    participants: req.body.participants,
-    agenda: req.body.agenda,
-    alerts: req.body.alerts,
-  });
-
-  meeting.save()
-    .then(savedMeeting => res.json(savedMeeting))
-    .catch(e => next(e));
+  userHelpers.getUserID(req.user)
+    .then((response) => {
+      const userID = response;
+      const meeting = new Meeting({
+        user: userID,
+        title: req.body.title,
+        details: req.body.details,
+        date: req.body.date,
+        location: req.body.location,
+        participants: req.body.participants,
+        agenda: req.body.agenda,
+        alerts: req.body.alerts,
+      });
+      meeting.save()
+        .then(savedMeeting => res.json(savedMeeting))
+        .catch(e => next(e));
+    })
+    .catch(() => {
+      // this error occurs if there was some problem with user authentication
+      // (e.g. missing token, bad token)
+      res.status(httpStatus.UNAUTHORIZED);
+    });
 }
 
 /**
@@ -81,8 +101,21 @@ function update(req, res, next) {
  * @returns {Meeting[]}
  */
 function list(req, res, next) {
-  Meeting.list()
-    .then(meetings => res.json(meetings))
+  // Unauthorised if no token in the request
+  if (!req.user) {
+    res.status(httpStatus.UNAUTHORIZED);
+  }
+
+  // Get the user ID from the token saved
+  userHelpers.getUserID(req.user)
+    .then((userID) => {
+      Meeting.list()
+      .then((meetings) => {
+        res.json(meetings
+          .filter(meeting => meeting.user && (meeting.user.toString() === userID.toString()))
+        );
+      });
+    })
     .catch(e => next(e));
 }
 
@@ -101,13 +134,32 @@ function remove(req, res, next) {
  * Get meetings where a specified participant is present
  */
 function getByParticipantId(req, res, next) {
-  // Returns true if the person is a participant in the meeting, and false otherwise
-  const isParticipant = (meeting, person) => meeting.participants.includes(person);
-
+  const getMeetingParticipants = meeting => meeting.participants
+    .map(participant => participant._id.toString());
   const personID = req.params.personId;
-  Meeting.list()
-    .then(meetings => res.json(meetings.filter(meeting => isParticipant(meeting, personID))))
-    .catch(e => next(e));
+  // Returns true if the person is a participant in the meeting, and false otherwise
+  const isParticipant = (meeting, person) => {
+    if (getMeetingParticipants(meeting).includes(person)) {
+      return true;
+    }
+    return false;
+  };
+  // Ensure the participant "belongs" to the user
+  userHelpers
+    .participantBelongsTo(req.user, personID)
+    .then((belongs) => {
+      if (belongs === true) {
+        Meeting.list()
+        .then(meetings => res
+          .json(meetings.filter(meeting => isParticipant(meeting, personID.toString())))
+        )
+        .catch(e => next(e));
+      } else {
+        return res
+          .status(httpStatus.UNAUTHORIZED)
+          .json({ message: 'Unauthorized' });
+      }
+    });
 }
 
 module.exports = { load, get, create, update, list, remove, getByParticipantId };

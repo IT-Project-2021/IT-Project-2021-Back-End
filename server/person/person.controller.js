@@ -1,4 +1,6 @@
 const Person = require('./person.model');
+const userHelpers = require('../helpers/userHelpers');
+const httpStatus = require('http-status');
 
 /**
  * Load person and append to req.
@@ -17,7 +19,16 @@ function load(req, res, next, id) {
  * @returns {Person}
  */
 function get(req, res) {
-  return res.json(req.person);
+  // Check that the person "belongs" to logged in user
+  userHelpers.getUserID(req.user)
+    .then((userID) => {
+      if (req.person.user && (userID.toString() === req.person.user.toString())) {
+        return res.json(req.person);
+      }
+      return res
+        .status(httpStatus.UNAUTHORIZED)
+        .json({ message: 'ID Mismatch' });
+    });
 }
 
 /**
@@ -32,20 +43,23 @@ function get(req, res) {
  * @property {string} req.body.notes - Notes about the person
  */
 function create(req, res, next) {
-  const person = new Person({
-    user: req.body.user,
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    phone_num: req.body.phone_num,
-    email: req.body.email,
-    company: req.body.company,
-    position: req.body.position,
-    notes: req.body.notes
-  });
-
-  person.save()
-    .then(savedPerson => res.json(savedPerson))
-    .catch(e => next(e));
+  userHelpers
+    .getUserID(req.user)
+    .then((userID) => {
+      const person = new Person({
+        user: userID,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        phone_num: req.body.phone_num,
+        email: req.body.email,
+        company: req.body.company,
+        position: req.body.position,
+        notes: req.body.notes
+      });
+      person.save()
+        .then(savedPerson => res.json(savedPerson))
+        .catch(e => next(e));
+    });
 }
 
 /**
@@ -81,13 +95,16 @@ function update(req, res, next) {
  * @returns {Person[]}
  */
 function list(req, res, next) {
-  // everything works fine when this line is gone, and it doesn't
-  // look like any variables are being assigned?
-  // i didn't totally remove it just in case though
-  // const { } = req.query;
-
-  Person.list()
-    .then(people => res.json(people))
+  userHelpers
+    .getUserID(req.user)
+    .then((userID) => {
+      Person.list()
+        .then((people) => {
+          res.json(people
+            .filter(person => person.user && (person.user.toString() === userID.toString()))
+          );
+        });
+    })
     .catch(e => next(e));
 }
 

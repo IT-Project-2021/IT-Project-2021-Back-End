@@ -11,32 +11,6 @@ servers:
   description: Local development server
 paths:
   /users:
-    get:
-      tags:
-      - users
-      summary: Get list of users
-      operationId: getUsers
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          links:
-            getUserId:
-              $ref: '#/components/links/getUserId'
-            putUserId:
-              $ref: '#/components/links/putUserId'
-            deleteUserId:
-              $ref: '#/components/links/deleteUserId'
-        "5XX":
-          description: Unexpected error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      x-swagger-router-controller: Users
     post:
       tags:
       - users
