@@ -149,20 +149,6 @@ describe('## User APIs', () => {
     .timeout(3000);
   });
 
-  describe('# GET /api/users/', () => {
-    it('should get all users', (done) => {
-      request(app)
-        .get('/api/users')
-        .expect(httpStatus.OK)
-        .then((res) => {
-          expect(res.body).to.be.an('array');
-          done();
-        })
-        .catch(done);
-    })
-    .timeout(4000);
-  });
-
   describe('# DELETE /api/users/:userId', () => {
     it('should delete user', (done) => {
       request(app)
