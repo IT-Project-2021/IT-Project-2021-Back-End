@@ -66,6 +66,38 @@ exports.getMeetingId = function(meetingId) {
 
 
 /**
+ * Get a list of meetings with the specified participant
+ *
+ * personId String 
+ * returns Meeting
+ **/
+exports.getMeetingParticipantId = function(personId) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "_id" : "a;slkdnv923r23",
+  "user" : "615a606d1689023f75b4320d",
+  "title" : "Monday Stand-Up",
+  "details" : "Details",
+  "date" : "2020-05-15T06:35:45Z",
+  "location" : "Melbourne",
+  "participants" : [ "6123785eec27a723da40feae", "6123827fd394f951583f0578" ],
+  "agenda" : [ "Inception Sprint", "Sprint 1" ],
+  "alerts" : [ {
+    "alertTime" : "2020-05-15T06:35:45Z",
+    "alertSettings" : "email"
+  } ]
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
+}
+
+
+/**
  * Get list of meetings
  *
  * returns Meeting
