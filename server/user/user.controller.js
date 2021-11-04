@@ -81,22 +81,37 @@ async function create(req, res, next) {
  * @returns {User}
  */
 async function update(req, res, next) {
-  const user = req.userInfo;
-  if (req.body.password) {
-    const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(req.body.password, salt);
-    user.passwordHash = passwordHash;
-  }
+  userHelpers
+  .getUserID(req.user)
+  .then((userID) => {
+    if (req.userInfo._id && (userID.toString() === req.userInfo._id.toString())) {
+      const user = req.userInfo;
+      if (req.body.password) {
+        const salt = (async () => {
+          await bcrypt.genSalt();
+        })();
+        const passwordHash = (async () => {
+          await bcrypt.hash(req.body.password, salt);
+        })();
+        user.passwordHash = passwordHash;
+      }
 
-  user.first_name = req.body.first_name || user.first_name;
-  user.last_name = req.body.last_name || user.last_name;
-  user.email = req.body.email || user.email;
-  user.contacts = req.body.contacts || user.contacts;
-  user.meetings = req.body.meetings || user.meetings;
+      user.first_name = req.body.first_name || user.first_name;
+      user.last_name = req.body.last_name || user.last_name;
+      user.email = req.body.email || user.email;
+      user.contacts = req.body.contacts || user.contacts;
+      user.meetings = req.body.meetings || user.meetings;
 
-  user.save()
-    .then(savedUser => res.json(savedUser))
-    .catch(e => next(e));
+      user.save()
+        .then(savedUser => res.json(savedUser))
+        .catch(e => next(e));
+    } else {
+      // user ID mismatch
+      return res
+        .status(httpStatus.UNAUTHORIZED)
+        .json({ message: 'Unauthorized' });
+    }
+  });
 }
 
 /**
@@ -114,10 +129,21 @@ function list(req, res, next) {
  * @returns {User}
  */
 function remove(req, res, next) {
-  const user = req.userInfo;
-  user.remove()
-    .then(deletedUser => res.json(deletedUser))
-    .catch(e => next(e));
+  userHelpers
+  .getUserID(req.user)
+  .then((userID) => {
+    if (req.userInfo._id && (userID.toString() === req.userInfo._id.toString())) {
+      const user = req.userInfo;
+      user.remove()
+        .then(deletedUser => res.json(deletedUser))
+        .catch(e => next(e));
+    } else {
+      // user ID mismatch
+      return res
+        .status(httpStatus.UNAUTHORIZED)
+        .json({ message: 'Unauthorized' });
+    }
+  });
 }
 
 module.exports = { load, get, create, update, list, remove };

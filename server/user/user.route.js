@@ -15,10 +15,12 @@ router.route('/:userId')
   .get(expressJwt({ secret: config.jwtSecret }), userCtrl.get)
 
   /** PUT /api/users/:userId - Update user */
-  .put(userCtrl.update)
+  // SECURE ROUTE
+  .put(expressJwt({ secret: config.jwtSecret }), userCtrl.update)
 
   /** DELETE /api/users/:userId - Delete user */
-  .delete(userCtrl.remove);
+  // SECURE ROUTE
+  .delete(expressJwt({ secret: config.jwtSecret }), userCtrl.remove);
 
 /** Load user when API with userId route parameter is hit */
 router.param('userId', userCtrl.load);

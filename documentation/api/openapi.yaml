@@ -98,12 +98,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Users
     delete:
       tags:
@@ -126,12 +134,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Users
   /people:
     get:
