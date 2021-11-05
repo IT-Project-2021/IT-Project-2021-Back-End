@@ -20,10 +20,12 @@ router.route('/:meetingId')
   .get(expressJwt({ secret: config.jwtSecret }), meetingCtrl.get)
 
   /** PUT /api/meetings/:meetingId - Update meeting */
-  .put(meetingCtrl.update)
+  // SECURE ROUTE
+  .put(expressJwt({ secret: config.jwtSecret }), meetingCtrl.update)
 
   /** DELETE /api/meetings/:meetingId - Delete meeting */
-  .delete(meetingCtrl.remove);
+  // SECURE ROUTE
+  .delete(expressJwt({ secret: config.jwtSecret }), meetingCtrl.remove);
 
 router.route('/participant/:personId')
   /** GET /api/meetings/participant/:personId - get a list of meetings with specified participant */

@@ -81,19 +81,30 @@ function create(req, res, next) {
  * @returns {Meeting}
  */
 function update(req, res, next) {
-  const meeting = req.meeting;
-  meeting.user = req.body.user || meeting.user;
-  meeting.title = req.body.title || meeting.title;
-  meeting.details = req.body.details || meeting.details;
-  meeting.date = req.body.date || meeting.date;
-  meeting.location = req.body.location || meeting.location;
-  meeting.participants = req.body.participants || meeting.participants;
-  meeting.agenda = req.body.agenda || meeting.agenda;
-  meeting.alerts = req.body.alerts || meeting.alerts;
+  userHelpers.getUserID(req.user)
+    .then((response) => {
+      const userID = response;
+      if (req.meeting.user && (userID.toString() === req.meeting.user.toString())) {
+        const meeting = req.meeting;
+        meeting.user = req.body.user || meeting.user;
+        meeting.title = req.body.title || meeting.title;
+        meeting.details = req.body.details || meeting.details;
+        meeting.date = req.body.date || meeting.date;
+        meeting.location = req.body.location || meeting.location;
+        meeting.participants = req.body.participants || meeting.participants;
+        meeting.agenda = req.body.agenda || meeting.agenda;
+        meeting.alerts = req.body.alerts || meeting.alerts;
 
-  meeting.save()
-    .then(savedMeeting => res.json(savedMeeting))
-    .catch(e => next(e));
+        meeting.save()
+          .then(savedMeeting => res.json(savedMeeting))
+          .catch(e => next(e));
+      } else {
+        // user ID mismatch
+        return res.status(httpStatus.UNAUTHORIZED).json({
+          message: 'ID Mismatch'
+        });
+      }
+    });
 }
 
 /**
@@ -124,10 +135,21 @@ function list(req, res, next) {
  * @returns {Meeting}
  */
 function remove(req, res, next) {
-  const meeting = req.meeting;
-  meeting.remove()
-    .then(deletedMeeting => res.json(deletedMeeting))
-    .catch(e => next(e));
+  userHelpers.getUserID(req.user)
+    .then((response) => {
+      const userID = response;
+      if (req.meeting.user && (userID.toString() === req.meeting.user.toString())) {
+        const meeting = req.meeting;
+        meeting.remove()
+          .then(deletedMeeting => res.json(deletedMeeting))
+          .catch(e => next(e));
+      } else {
+        // user ID mismatch
+        return res.status(httpStatus.UNAUTHORIZED).json({
+          message: 'ID Mismatch'
+        });
+      }
+    });
 }
 
 /**

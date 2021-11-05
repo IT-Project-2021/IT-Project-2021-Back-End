@@ -132,6 +132,7 @@ describe('## Meeting APIs', () => {
       meeting.details = 'Yeet';
       request(app)
         .put(`/api/meetings/${meeting._id}`)
+        .set('Authorization', validToken)
         .send(meeting)
         .expect(httpStatus.OK)
         .then((res) => {
@@ -148,6 +149,30 @@ describe('## Meeting APIs', () => {
         })
         .catch(done);
     }).timeout(3000);
+    it('should fail to update meeting details (missing token)', (done) => {
+      request(app)
+        .put(`/api/meetings/${meeting._id}`)
+        .send(meeting)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should fail to update meeting details (wrong user)', (done) => {
+      request(app)
+        .put(`/api/meetings/${meeting._id}`)
+        .set('Authorization', blankUserToken)
+        .send(meeting)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('ID Mismatch');
+          done();
+        })
+        .catch(done);
+    });
   });
 
   describe('# GET /api/meetings/', () => {
@@ -187,9 +212,32 @@ describe('## Meeting APIs', () => {
   });
 
   describe('# DELETE /api/meetings/:meetingId', () => {
+    it('should fail to delete meeting (missing token)', (done) => {
+      request(app)
+        .delete(`/api/meetings/${meeting._id}`)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should fail to delete meeting (wrong user)', (done) => {
+      request(app)
+        .delete(`/api/meetings/${meeting._id}`)
+        .set('Authorization', blankUserToken)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('ID Mismatch');
+          done();
+        })
+        .catch(done);
+    });
     it('should delete meeting', (done) => {
       request(app)
         .delete(`/api/meetings/${meeting._id}`)
+        .set('Authorization', validToken)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.user).to.equal(meeting.user);

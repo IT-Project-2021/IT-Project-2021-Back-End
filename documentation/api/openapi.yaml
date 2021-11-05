@@ -557,6 +557,12 @@ paths:
               $ref: '#/components/links/putMeetingId'
             deleteMeetingId:
               $ref: '#/components/links/deleteMeetingId'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "404":
           description: No such meeting exists!
           content:
@@ -569,6 +575,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Meetings
     delete:
       tags:
@@ -591,6 +599,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Meeting'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "404":
           description: No such meeting exists!
           content:
@@ -603,6 +617,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Meetings
   /meetings/participant/{personId}:
     get:
