@@ -23,6 +23,16 @@ module.exports.getMeetingId = function getMeetingId (req, res, next, meetingId) 
     });
 };
 
+module.exports.getMeetingParticipantId = function getMeetingParticipantId (req, res, next, personId) {
+  Meetings.getMeetingParticipantId(personId)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.getMeetings = function getMeetings (req, res, next) {
   Meetings.getMeetings()
     .then(function (response) {

@@ -35,6 +35,7 @@ describe('## Meeting APIs', () => {
   // this token is for the user postmanuser@gmail.com, who should have no meetings set
   const blankUserToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBvc3RtYW51c2VyQGdtYWlsLmNvbSIsImlhdCI6MTYzNTUxMjA3N30.-3gGN4hj5wHXErGH08gbHcO_2-jECgjtK6qciMaFK4k';
 
+
   describe('# POST /api/meetings', () => {
     it('should create a new meeting', (done) => {
       request(app)
@@ -70,6 +71,7 @@ describe('## Meeting APIs', () => {
         .catch(done);
     }).timeout(15000);
   });
+
 
   describe('# GET /api/meetings/:meetingId', () => {
     it('should get meeting details', (done) => {
@@ -127,11 +129,13 @@ describe('## Meeting APIs', () => {
     }).timeout(3000);
   });
 
+
   describe('# PUT /api/:meetingId', () => {
     it('should update meeting details', (done) => {
       meeting.details = 'Yeet';
       request(app)
         .put(`/api/meetings/${meeting._id}`)
+        .set('Authorization', validToken)
         .send(meeting)
         .expect(httpStatus.OK)
         .then((res) => {
@@ -148,7 +152,44 @@ describe('## Meeting APIs', () => {
         })
         .catch(done);
     }).timeout(3000);
+
+    it('should fail to update meeting details (missing token)', (done) => {
+      request(app)
+        .put(`/api/meetings/${meeting._id}`)
+        .send(meeting)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should fail to update meeting details (wrong user)', (done) => {
+      request(app)
+        .put(`/api/meetings/${meeting._id}`)
+        .set('Authorization', blankUserToken)
+        .send(meeting)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('ID Mismatch');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should report error with message - Not found, when meeting does not exist', (done) => {
+      request(app)
+        .put('/api/meetings/888888888888888888888888')
+        .expect(httpStatus.NOT_FOUND)
+        .then((res) => {
+          expect(res.body.message).to.equal('Not Found');
+          done();
+        })
+        .catch(done);
+    }).timeout(3000);
   });
+
 
   describe('# GET /api/meetings/', () => {
     it('should get all meetings for John Doe', (done) => {
@@ -162,6 +203,7 @@ describe('## Meeting APIs', () => {
         })
         .catch(done);
     });
+
     it('should get all meetings for Jane Doe', (done) => {
       request(app)
         .get('/api/meetings')
@@ -174,6 +216,7 @@ describe('## Meeting APIs', () => {
         })
         .catch(done);
     });
+
     it('should fail to get all meetings (missing authorisation)', (done) => {
       request(app)
         .get('/api/meetings')
@@ -186,10 +229,46 @@ describe('## Meeting APIs', () => {
     });
   });
 
+
   describe('# DELETE /api/meetings/:meetingId', () => {
+    it('should fail to delete meeting (missing token)', (done) => {
+      request(app)
+        .delete(`/api/meetings/${meeting._id}`)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should fail to delete meeting (wrong user)', (done) => {
+      request(app)
+        .delete(`/api/meetings/${meeting._id}`)
+        .set('Authorization', blankUserToken)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('ID Mismatch');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should report error with message - Not found, when meeting does not exist', (done) => {
+      request(app)
+        .delete('/api/meetings/888888888888888888888888')
+        .expect(httpStatus.NOT_FOUND)
+        .then((res) => {
+          expect(res.body.message).to.equal('Not Found');
+          done();
+        })
+        .catch(done);
+    }).timeout(3000);
+
     it('should delete meeting', (done) => {
       request(app)
         .delete(`/api/meetings/${meeting._id}`)
+        .set('Authorization', validToken)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.user).to.equal(meeting.user);

@@ -75,19 +75,28 @@ function create(req, res, next) {
  * @returns {Person}
  */
 function update(req, res, next) {
-  const person = req.person;
-  person.user = req.body.user || person.user;
-  person.first_name = req.body.first_name || person.first_name;
-  person.last_name = req.body.last_name || person.last_name;
-  person.phone_num = req.body.phone_num || person.phone_num;
-  person.email = req.body.email || person.email;
-  person.company = req.body.company || person.company;
-  person.position = req.body.position || person.position;
-  person.notes = req.body.notes || person.notes;
+  userHelpers.getUserID(req.user)
+    .then((userID) => {
+      if (req.person.user && (userID.toString() === req.person.user.toString())) {
+        const person = req.person;
+        person.user = req.body.user || person.user;
+        person.first_name = req.body.first_name || person.first_name;
+        person.last_name = req.body.last_name || person.last_name;
+        person.phone_num = req.body.phone_num || person.phone_num;
+        person.email = req.body.email || person.email;
+        person.company = req.body.company || person.company;
+        person.position = req.body.position || person.position;
+        person.notes = req.body.notes || person.notes;
 
-  person.save()
-    .then(savedPerson => res.json(savedPerson))
-    .catch(e => next(e));
+        person.save()
+          .then(savedPerson => res.json(savedPerson))
+          .catch(e => next(e));
+      } else {
+        return res
+          .status(httpStatus.UNAUTHORIZED)
+          .json({ message: 'ID Mismatch' });
+      }
+    });
 }
 
 /**
@@ -113,10 +122,19 @@ function list(req, res, next) {
  * @returns {Person}
  */
 function remove(req, res, next) {
-  const person = req.person;
-  person.remove()
-    .then(deletedPerson => res.json(deletedPerson))
-    .catch(e => next(e));
+  userHelpers.getUserID(req.user)
+    .then((userID) => {
+      if (req.person.user && (userID.toString() === req.person.user.toString())) {
+        const person = req.person;
+        person.remove()
+          .then(deletedPerson => res.json(deletedPerson))
+          .catch(e => next(e));
+      } else {
+        return res
+          .status(httpStatus.UNAUTHORIZED)
+          .json({ message: 'ID Mismatch' });
+      }
+    });
 }
 
 module.exports = { load, get, create, update, list, remove };

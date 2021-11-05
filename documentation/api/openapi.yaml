@@ -57,12 +57,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such user exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Users
     put:
       tags:
@@ -90,12 +104,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such user exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Users
     delete:
       tags:
@@ -118,12 +146,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such user exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Users
   /people:
     get:
@@ -145,12 +187,22 @@ paths:
               $ref: '#/components/links/putPersonId'
             deletePersonId:
               $ref: '#/components/links/deletePersonId'
+            getMeetingPersonId:
+              $ref: '#/components/links/getMeetingPersonId'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: People
     post:
       tags:
@@ -177,12 +229,22 @@ paths:
               $ref: '#/components/links/putPersonId'
             deletePersonId:
               $ref: '#/components/links/deletePersonId'
+            getMeetingPersonId:
+              $ref: '#/components/links/getMeetingPersonId'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: People
   /people/{personId}:
     get:
@@ -213,12 +275,28 @@ paths:
               $ref: '#/components/links/putPersonId'
             deletePersonId:
               $ref: '#/components/links/deletePersonId'
+            getMeetingPersonId:
+              $ref: '#/components/links/getMeetingPersonId'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such person exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: People
     put:
       tags:
@@ -254,12 +332,28 @@ paths:
               $ref: '#/components/links/putPersonId'
             deletePersonId:
               $ref: '#/components/links/deletePersonId'
+            getMeetingPersonId:
+              $ref: '#/components/links/getMeetingPersonId'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such person exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: People
     delete:
       tags:
@@ -282,19 +376,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Person'
-          links:
-            getPersonId:
-              $ref: '#/components/links/getPersonId'
-            putPersonId:
-              $ref: '#/components/links/putPersonId'
-            deletePersonId:
-              $ref: '#/components/links/deletePersonId'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such person exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: People
   /meetings:
     get:
@@ -316,12 +417,20 @@ paths:
               $ref: '#/components/links/putMeetingId'
             deleteMeetingId:
               $ref: '#/components/links/deleteMeetingId'
+        "401":
+          description: Unauthorised if no token in the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Meetings
     post:
       tags:
@@ -348,12 +457,21 @@ paths:
               $ref: '#/components/links/putMeetingId'
             deleteMeetingId:
               $ref: '#/components/links/deleteMeetingId'
+        "401":
+          description: "This error occurs if there was some problem with user authentication\
+            \ (e.g. missing token, bad token)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Meetings
   /meetings/{meetingId}:
     get:
@@ -384,12 +502,26 @@ paths:
               $ref: '#/components/links/putMeetingId'
             deleteMeetingId:
               $ref: '#/components/links/deleteMeetingId'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such meeting exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Meetings
     put:
       tags:
@@ -425,12 +557,26 @@ paths:
               $ref: '#/components/links/putMeetingId'
             deleteMeetingId:
               $ref: '#/components/links/deleteMeetingId'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such meeting exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Meetings
     delete:
       tags:
@@ -453,6 +599,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Meeting'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such meeting exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Meetings
+  /meetings/participant/{personId}:
+    get:
+      tags:
+      - meetings
+      summary: Get a list of meetings with the specified participant
+      operationId: getMeetingParticipantId
+      parameters:
+      - name: personId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 613efa4ae27fceca8e7ee9f6
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
           links:
             getMeetingId:
               $ref: '#/components/links/getMeetingId'
@@ -460,12 +649,20 @@ paths:
               $ref: '#/components/links/putMeetingId'
             deleteMeetingId:
               $ref: '#/components/links/deleteMeetingId'
+        "401":
+          description: ID Mismatch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: Meetings
   /auth/login:
     post:
@@ -481,16 +678,14 @@ paths:
         required: true
       responses:
         "200":
-          description: OK
+          description: OK. The 'token' value returned in the response can be used
+            as the authorization token in the protected routes.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_200'
-          links:
-            getRandom-Number:
-              $ref: '#/components/links/getRandom-Number'
         "401":
-          description: Unauthorised.
+          description: Unauthorized
           content:
             application/json:
               schema:
@@ -516,7 +711,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_200_1'
         "401":
-          description: Unauthorised.
+          description: Unauthorized
           content:
             application/json:
               schema:
@@ -783,7 +978,13 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
     Unauthorised:
-      description: Unauthorised.
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    IDMismatch:
+      description: ID Mismatch
       content:
         application/json:
           schema:
@@ -833,22 +1034,24 @@ components:
     getMeetingId:
       operationId: getMeetingId
       parameters:
-        personId: $response.body#/_id
+        meetingId: $response.body#/_id
       description: "The '_id' value returned in the response can be used as the 'meetingId'\
         \ parameter in 'GET /meetings/{meetingId}'."
     putMeetingId:
       operationId: putMeetingId
       parameters:
-        personId: $response.body#/_id
+        meetingId: $response.body#/_id
       description: "The '_id' value returned in the response can be used as the 'meetingId'\
         \ parameter in 'PUT /meetings/{meetingId}'."
     deleteMeetingId:
       operationId: deleteMeetingId
       parameters:
-        personId: $response.body#/_id
+        meetingId: $response.body#/_id
       description: "The '_id' value returned in the response can be used as the 'meetingId'\
-        \ paramater in 'DELETE /meetings/{meetingId}'."
-    getRandom-Number:
-      operationId: getRandom-Number
-      description: The 'token' value returned in the response can be used as the authorization
-        token in 'GET /auth/random-number'.
+        \ parameter in 'DELETE /meetings/{meetingId}'."
+    getMeetingPersonId:
+      operationId: getMeetingPersonId
+      parameters:
+        personId: $response.body#/_id
+      description: "The '_id' value returned in the response can be used as the 'personId'\
+        \ parameter in 'GET /meetings/participant/{personId}'."
