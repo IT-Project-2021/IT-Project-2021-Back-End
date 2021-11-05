@@ -63,6 +63,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        "404":
+          description: No such user exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
@@ -104,6 +110,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        "404":
+          description: No such user exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
@@ -136,6 +148,12 @@ paths:
                 $ref: '#/components/schemas/User'
         "401":
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such user exists!
           content:
             application/json:
               schema:
@@ -265,6 +283,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        "404":
+          description: No such person exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
@@ -310,12 +334,26 @@ paths:
               $ref: '#/components/links/deletePersonId'
             getMeetingPersonId:
               $ref: '#/components/links/getMeetingPersonId'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such person exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: People
     delete:
       tags:
@@ -338,12 +376,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Person'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: No such person exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
       x-swagger-router-controller: People
   /meetings:
     get:
@@ -456,6 +508,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        "404":
+          description: No such meeting exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
@@ -499,6 +557,12 @@ paths:
               $ref: '#/components/links/putMeetingId'
             deleteMeetingId:
               $ref: '#/components/links/deleteMeetingId'
+        "404":
+          description: No such meeting exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:
@@ -527,6 +591,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Meeting'
+        "404":
+          description: No such meeting exists!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "5XX":
           description: Unexpected error.
           content:

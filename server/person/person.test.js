@@ -129,6 +129,7 @@ describe('## Person APIs', () => {
       person.first_name = 'Yeet';
       request(app)
         .put(`/api/people/${person._id}`)
+        .set('Authorization', validToken)
         .send(person)
         .expect(httpStatus.OK)
         .then((res) => {
@@ -144,6 +145,28 @@ describe('## Person APIs', () => {
         })
         .catch(done);
     }).timeout(3000);
+    it('should fail to update person details (wrong user)', (done) => {
+      request(app)
+        .put(`/api/people/${person._id}`)
+        .set('Authorization', wrongUserToken)
+        .send(person)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('ID Mismatch');
+          done();
+        });
+    });
+    it('should fail to update person details (missing auth)', (done) => {
+      request(app)
+        .put(`/api/people/${person._id}`)
+        .send(person)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    });
   });
 
   describe('# GET /api/people/', () => {
@@ -187,9 +210,29 @@ describe('## Person APIs', () => {
   });
 
   describe('# DELETE /api/people/:personId', () => {
+    it('should fail to get person details (wrong user)', (done) => {
+      request(app)
+        .delete(`/api/people/${person._id}`)
+        .set('Authorization', wrongUserToken)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('ID Mismatch');
+          done();
+        });
+    });
+    it('should fail to get person details (missing auth)', (done) => {
+      request(app)
+        .delete(`/api/people/${person._id}`)
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        });
+    });
     it('should delete person', (done) => {
       request(app)
         .delete(`/api/people/${person._id}`)
+        .set('Authorization', validToken)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.user).to.equal(person.user);

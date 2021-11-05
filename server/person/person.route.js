@@ -20,10 +20,12 @@ router.route('/:personId')
   .get(expressJwt({ secret: config.jwtSecret }), personCtrl.get)
 
   /** PUT /api/people/:personId - Update person */
-  .put(personCtrl.update)
+  // SECURE ROUTE
+  .put(expressJwt({ secret: config.jwtSecret }), personCtrl.update)
 
   /** DELETE /api/people/:personId - Delete person */
-  .delete(personCtrl.remove);
+  // SECURE ROUTE
+  .delete(expressJwt({ secret: config.jwtSecret }), personCtrl.remove);
 
 /** Load person when API when API with personId route parameter is hit */
 router.param('personId', personCtrl.load);
