@@ -7,7 +7,11 @@ const router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/')
   /** POST /api/users - Create new user */
-  .post(userCtrl.create);
+  .post(userCtrl.create)
+
+  /** GET /api/users - Get the information associated with the logged-in user */
+  // SECURE ROUTE
+  .get(expressJwt({ secret: config.jwtSecret }), userCtrl.find);
 
 router.route('/:userId')
   /** GET /api/users/:userId - Get user */
