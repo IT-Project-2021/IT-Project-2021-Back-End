@@ -37,6 +37,7 @@ describe('## Person APIs', () => {
   // this is the token for a different user (with no contacts saved)
   const wrongUserToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBvc3RtYW51c2VyQGdtYWlsLmNvbSIsImlhdCI6MTYzNTUxMjA3N30.-3gGN4hj5wHXErGH08gbHcO_2-jECgjtK6qciMaFK4k';
 
+
   describe('# POST /api/people', () => {
     it('should create a new person', (done) => {
       request(app)
@@ -59,6 +60,7 @@ describe('## Person APIs', () => {
         })
         .catch(done);
     });
+
     it('should fail to create a new person (missing auth)', (done) => {
       request(app)
         .post('/api/people')
@@ -71,6 +73,7 @@ describe('## Person APIs', () => {
         .catch(done);
     });
   });
+
 
   describe('# GET /api/people/:personId', () => {
     it('should get person details', (done) => {
@@ -91,6 +94,7 @@ describe('## Person APIs', () => {
         })
         .catch(done);
     });
+
     it('should fail to get person details (wrong user)', (done) => {
       request(app)
         .get(`/api/people/${person._id}`)
@@ -102,6 +106,7 @@ describe('## Person APIs', () => {
         })
         .catch(done);
     });
+
     it('should fail to get person details (missing auth)', (done) => {
       request(app)
         .get(`/api/people/${person._id}`)
@@ -112,6 +117,7 @@ describe('## Person APIs', () => {
         })
         .catch(done);
     });
+
     it('should report error with message - Not found, when person does not exist', (done) => {
       request(app)
         .get('/api/people/888888888888888888888888')
@@ -123,6 +129,7 @@ describe('## Person APIs', () => {
         .catch(done);
     }).timeout(3000);
   });
+
 
   describe('# PUT /api/:personId', () => {
     it('should update person details', (done) => {
@@ -145,6 +152,7 @@ describe('## Person APIs', () => {
         })
         .catch(done);
     }).timeout(3000);
+
     it('should fail to update person details (wrong user)', (done) => {
       request(app)
         .put(`/api/people/${person._id}`)
@@ -156,6 +164,7 @@ describe('## Person APIs', () => {
           done();
         });
     });
+
     it('should fail to update person details (missing auth)', (done) => {
       request(app)
         .put(`/api/people/${person._id}`)
@@ -167,7 +176,19 @@ describe('## Person APIs', () => {
         })
         .catch(done);
     });
+
+    it('should report error with message - Not found, when person does not exist', (done) => {
+      request(app)
+        .put('/api/people/888888888888888888888888')
+        .expect(httpStatus.NOT_FOUND)
+        .then((res) => {
+          expect(res.body.message).to.equal('Not Found');
+          done();
+        })
+        .catch(done);
+    }).timeout(3000);
   });
+
 
   describe('# GET /api/people/', () => {
     it('should get all people', (done) => {
@@ -185,6 +206,7 @@ describe('## Person APIs', () => {
         })
         .catch(done);
     });
+
     it('should get all people (for a user with no contacts)', (done) => {
       request(app)
         .get('/api/people')
@@ -197,6 +219,7 @@ describe('## Person APIs', () => {
         })
         .catch(done);
     });
+
     it('should fail to get all people (missing auth)', (done) => {
       request(app)
         .get('/api/people')
@@ -220,6 +243,7 @@ describe('## Person APIs', () => {
           done();
         });
     });
+
     it('should fail to get person details (missing auth)', (done) => {
       request(app)
         .delete(`/api/people/${person._id}`)
@@ -229,6 +253,18 @@ describe('## Person APIs', () => {
           done();
         });
     });
+
+    it('should report error with message - Not found, when person does not exist', (done) => {
+      request(app)
+        .delete('/api/people/888888888888888888888888')
+        .expect(httpStatus.NOT_FOUND)
+        .then((res) => {
+          expect(res.body.message).to.equal('Not Found');
+          done();
+        })
+        .catch(done);
+    }).timeout(3000);
+
     it('should delete person', (done) => {
       request(app)
         .delete(`/api/people/${person._id}`)

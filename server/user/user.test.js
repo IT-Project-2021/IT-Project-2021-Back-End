@@ -27,8 +27,14 @@ describe('## User APIs', () => {
     contacts: ['6123785eec27a723da40feae', '6123827fd394f951583f0578'],
     meetings: ['613efb07bcfb116d50665acb', '613efb689b7c8e6ef8fdc4e6']
   };
-
   let user;
+
+  const newLoginDetails = {
+    email: 'johndoe@gmail.com',
+    password: 'hunter2'
+  };
+  let newToken;
+
 
   describe('# POST /api/users', () => {
     it('should create a new user', (done) => {
@@ -48,6 +54,7 @@ describe('## User APIs', () => {
         .catch(done);
     })
     .timeout(4000);
+
     it('should report error with message - Email already in use', (done) => {
       request(app)
         .post('/api/users')
@@ -59,6 +66,7 @@ describe('## User APIs', () => {
         })
         .catch(done);
     });
+
     it('should report error with message - Email already in use', (done) => {
       request(app)
         .post('/api/users')
@@ -72,13 +80,8 @@ describe('## User APIs', () => {
     });
   });
 
-  describe('# GET /api/users/:userId', () => {
-    const newLoginDetails = {
-      email: 'johndoe@gmail.com',
-      password: 'hunter2'
-    };
-    let newToken;
 
+  describe('# GET /api/users/:userId', () => {
     it('should get user details', (done) => {
       // Setup by requesting token of the new user
       request(app)
@@ -139,13 +142,8 @@ describe('## User APIs', () => {
     });
   });
 
-  describe('# PUT /api/users/:userId', () => {
-    const newLoginDetails = {
-      email: 'johndoe@gmail.com',
-      password: 'hunter2'
-    };
-    let newToken;
 
+  describe('# PUT /api/users/:userId', () => {
     it('should update user details', (done) => {
       // Setup by requesting token of the new user
       request(app)
@@ -203,15 +201,21 @@ describe('## User APIs', () => {
         })
         .catch(done);
     });
+
+    it('should report error with message - Not found, when user does not exist', (done) => {
+      request(app)
+        .put('/api/users/56c787ccc67fc16ccc1a5e92')
+        .expect(httpStatus.NOT_FOUND)
+        .then((res) => {
+          expect(res.body.message).to.equal('Not Found');
+          done();
+        })
+        .catch(done);
+    });
   });
 
-  describe('# DELETE /api/users/:userId', () => {
-    const newLoginDetails = {
-      email: 'johndoe@gmail.com',
-      password: 'hunter2'
-    };
-    let newToken;
 
+  describe('# DELETE /api/users/:userId', () => {
     it('should get fail to delete user (missing auth)', (done) => {
       request(app)
           .delete(`/api/users/${user._id}`)
@@ -233,6 +237,17 @@ describe('## User APIs', () => {
             done();
           })
           .catch(done);
+    });
+
+    it('should report error with message - Not found, when user does not exist', (done) => {
+      request(app)
+        .delete('/api/users/56c787ccc67fc16ccc1a5e92')
+        .expect(httpStatus.NOT_FOUND)
+        .then((res) => {
+          expect(res.body.message).to.equal('Not Found');
+          done();
+        })
+        .catch(done);
     });
 
     it('should delete user', (done) => {
