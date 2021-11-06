@@ -1,6 +1,10 @@
 const Meeting = require('./meeting.model');
 const userHelpers = require('../helpers/userHelpers');
 const httpStatus = require('http-status');
+// const nunjucks = require('nunjucks');
+// const User = require('../user/user.model');
+// const userCtrl = require('../user/user.controller');
+const email = require('../email/email.js');
 
 /**
  * Load meeting and append to req.
@@ -57,6 +61,29 @@ function create(req, res, next) {
         agenda: req.body.agenda,
         alerts: req.body.alerts,
       });
+
+      // User.get(req)
+      //   .then((user) => {
+      //     req.user = user; // eslint-disable-line no-param-reassign
+      //     return next();
+      //   })
+      //   .catch(e => next(e));
+
+      // nunjucks.configure('../email', { autoescape: true });
+      // const reminder = nunjucks.render('eminder.html', {
+      //   yeet: 'yeetus'
+      // });
+
+      email.mailSender('dfink100@gmail.com', 'MyDailyPlanner Meeting Reminder', 'this is a reminder')
+          .then((response2) => {
+            // eslint-disable-next-line no-console
+            console.log(response2);
+          })
+          .catch((err) => {
+            // eslint-disable-next-line no-console
+            console.log(`error: ${err}`);
+          });
+
       meeting.save()
         .then(savedMeeting => res.json(savedMeeting))
         .catch(e => next(e));
