@@ -80,6 +80,56 @@ describe('## User APIs', () => {
     });
   });
 
+  describe('# GET /api/users/', () => {
+    it('should get user details', (done) => {
+      // Setup by requesting token of the new user
+      request(app)
+      .post('/api/auth/login')
+      .send(newLoginDetails)
+      .then((res) => {
+        newToken = `Bearer ${res.body.token}`;
+        // Once token is retrieved, try and get user details
+        request(app)
+          .get('/api/users')
+          .set('Authorization', newToken)
+          .expect(httpStatus.OK)
+          .then((response) => {
+            expect(response.body.first_name).to.equal(user.first_name);
+            expect(response.body.last_name).to.equal(user.last_name);
+            expect(response.body.email).to.equal(user.email);
+            expect(response.body.password_hash);
+            expect(response.body.contacts).to.deep.equal(user.contacts);
+            expect(response.body.meetings).to.deep.equal(user.meetings);
+            done();
+          })
+          .catch(done);
+      });
+    });
+
+    it('should fail to get user details (missing auth)', (done) => {
+      request(app)
+        .get('/api/users')
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should fail to get user details for user that does not exist', (done) => {
+      request(app)
+        .get('/api/users')
+        .set('Authorization', 'thisIsAnIncorrectToken')
+        .expect(httpStatus.UNAUTHORIZED)
+        .then((res) => {
+          expect(res.body.message).to.equal('Unauthorized');
+          done();
+        })
+        .catch(done);
+    });
+  });
+
 
   describe('# GET /api/users/:userId', () => {
     it('should get user details', (done) => {
@@ -107,7 +157,7 @@ describe('## User APIs', () => {
       });
     });
 
-    it('should get fail to get user details (missing auth)', (done) => {
+    it('should fail to get user details (missing auth)', (done) => {
       request(app)
         .get(`/api/users/${user._id}`)
         .expect(httpStatus.UNAUTHORIZED)
@@ -118,7 +168,7 @@ describe('## User APIs', () => {
         .catch(done);
     });
 
-    it('should get fail to get user details (incorrect auth)', (done) => {
+    it('should fail to get user details (incorrect auth)', (done) => {
       request(app)
         .get(`/api/users/${user._id}`)
         .set('Authorization', 'thisIsAnIncorrectToken')
@@ -173,7 +223,7 @@ describe('## User APIs', () => {
     })
     .timeout(3000);
 
-    it('should get fail to update user details (missing auth)', (done) => {
+    it('should fail to update user details (missing auth)', (done) => {
       user.first_name = 'KK';
       user.password = 'password1234';
       request(app)
@@ -187,7 +237,7 @@ describe('## User APIs', () => {
         .catch(done);
     });
 
-    it('should get fail to update user details (incorrect auth)', (done) => {
+    it('should fail to update user details (incorrect auth)', (done) => {
       user.first_name = 'KK';
       user.password = 'password1234';
       request(app)
@@ -216,7 +266,7 @@ describe('## User APIs', () => {
 
 
   describe('# DELETE /api/users/:userId', () => {
-    it('should get fail to delete user (missing auth)', (done) => {
+    it('should fail to delete user (missing auth)', (done) => {
       request(app)
           .delete(`/api/users/${user._id}`)
           .expect(httpStatus.UNAUTHORIZED)
@@ -227,7 +277,7 @@ describe('## User APIs', () => {
           .catch(done);
     });
 
-    it('should get fail to delete user (incorrect auth)', (done) => {
+    it('should fail to delete user (incorrect auth)', (done) => {
       request(app)
           .delete(`/api/users/${user._id}`)
           .set('Authorization', 'thisIsAnIncorrectToken')

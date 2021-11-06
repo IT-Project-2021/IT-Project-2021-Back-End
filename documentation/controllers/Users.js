@@ -23,6 +23,16 @@ module.exports.getUserId = function getUserId (req, res, next, userId) {
     });
 };
 
+module.exports.getUsers = function getUsers (req, res, next) {
+  Users.getUsers()
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.postUsers = function postUsers (req, res, next, body) {
   Users.postUsers(body)
     .then(function (response) {
