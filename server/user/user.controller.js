@@ -146,4 +146,23 @@ function remove(req, res, next) {
   });
 }
 
-module.exports = { load, get, create, update, list, remove };
+/**
+ * Get the user's info
+ */
+function find(req, res) {
+  // get the user's information using their auth token
+  userHelpers
+    .getUserID(req.user)
+    .then((userID) => {
+      User.get(userID)
+      .then(userInfo => res.json(userInfo))
+      .catch(() =>
+        // user not found
+        res
+          .status(httpStatus.UNAUTHORIZED)
+          .json({ message: 'Unauthorized' })
+      );
+    });
+}
+
+module.exports = { load, get, create, update, list, remove, find };

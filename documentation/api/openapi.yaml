@@ -11,6 +11,33 @@ servers:
   description: Local development server
 paths:
   /users:
+    get:
+      tags:
+      - users
+      summary: Get user from just token
+      operationId: getUsers
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "5XX":
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Users
     post:
       tags:
       - users
