@@ -81,37 +81,28 @@ async function create(req, res, next) {
  * @returns {User}
  */
 async function update(req, res, next) {
-  userHelpers
-  .getUserID(req.user)
-  .then((userID) => {
-    if (req.userInfo._id && (userID.toString() === req.userInfo._id.toString())) {
-      const user = req.userInfo;
-      if (req.body.password) {
-        const salt = (async () => {
-          await bcrypt.genSalt();
-        })();
-        const passwordHash = (async () => {
-          await bcrypt.hash(req.body.password, salt);
-        })();
-        user.passwordHash = passwordHash;
-      }
-
-      user.first_name = req.body.first_name || user.first_name;
-      user.last_name = req.body.last_name || user.last_name;
-      user.email = req.body.email || user.email;
-      user.contacts = req.body.contacts || user.contacts;
-      user.meetings = req.body.meetings || user.meetings;
-
-      user.save()
-        .then(savedUser => res.json(savedUser))
-        .catch(e => next(e));
-    } else {
-      // user ID mismatch
-      return res
-        .status(httpStatus.UNAUTHORIZED)
-        .json({ message: 'Unauthorized' });
+  const userID = await userHelpers.getUserID(req.user);
+  if (req.userInfo._id && (userID.toString() === req.userInfo._id.toString())) {
+    const user = req.userInfo;
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt();
+      const passwordHash = await bcrypt.hash(req.body.password, salt);
+      user.password_hash = passwordHash;
     }
-  });
+    user.first_name = req.body.first_name || user.first_name;
+    user.last_name = req.body.last_name || user.last_name;
+    user.email = req.body.email || user.email;
+    user.contacts = req.body.contacts || user.contacts;
+    user.meetings = req.body.meetings || user.meetings;
+    user.save()
+      .then(savedUser => res.json(savedUser))
+      .catch(e => next(e));
+  } else {
+    // user ID mismatch
+    return res
+      .status(httpStatus.UNAUTHORIZED)
+      .json({ message: 'Unauthorized' });
+  }
 }
 
 /**
