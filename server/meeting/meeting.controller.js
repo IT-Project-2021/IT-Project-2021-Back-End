@@ -1,8 +1,7 @@
 const Meeting = require('./meeting.model');
 const userHelpers = require('../helpers/userHelpers');
 const httpStatus = require('http-status');
-// const User = require('../user/user.model');
-// const userCtrl = require('../user/user.controller');
+const User = require('../user/user.model');
 const email = require('../email/email.js');
 
 /**
@@ -61,18 +60,17 @@ function create(req, res, next) {
         alerts: req.body.alerts,
       });
 
-      // User.get(req)
-      //   .then((user) => {
-      //     req.user = user; // eslint-disable-line no-param-reassign
-      //     return next();
-      //   })
-      //   .catch(e => next(e));
+      let userInfo;
+
+      (async () => {
+        userInfo = await User.findOne({ _id: userID });
+      })();
 
 
       meeting.save()
         .then((savedMeeting) => {
           res.json(savedMeeting);
-          email.mailSender('dfink100@gmail.com', 'MyDailyPlanner Meeting Reminder', 'reminder', savedMeeting)
+          email.mailSender(userInfo.email, 'MyDailyPlanner Meeting Reminder', 'reminder', savedMeeting)
           .then((response2) => {
             // eslint-disable-next-line no-console
             console.log(response2);
