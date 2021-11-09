@@ -56,9 +56,12 @@
     "http-status": "1.0.1",
     "joi": "10.6.0",
     "jsonwebtoken": "^7.2.0",
+    "mailgun-js": "false0.22.0",
     "method-override": "^2.3.10",
     "mongoose": "^5.13.7",
     "morgan": "^1.10.0",
+    "nunjucks": "false3.2.3",
+    "q": "false1.5.1",
     "winston": "2.4.1"
   },
   "devDependencies": {

@@ -1,6 +1,8 @@
 const Meeting = require('./meeting.model');
 const userHelpers = require('../helpers/userHelpers');
 const httpStatus = require('http-status');
+const User = require('../user/user.model');
+const email = require('../email/email.js');
 
 /**
  * Load meeting and append to req.
@@ -57,8 +59,27 @@ function create(req, res, next) {
         agenda: req.body.agenda,
         alerts: req.body.alerts,
       });
+
+      let userInfo;
+
+      (async () => {
+        userInfo = await User.findOne({ _id: userID });
+      })();
+
+
       meeting.save()
-        .then(savedMeeting => res.json(savedMeeting))
+        .then((savedMeeting) => {
+          res.json(savedMeeting);
+          email.mailSender(userInfo.email, 'MyDailyPlanner Meeting Reminder', 'reminder', savedMeeting)
+          .then((response2) => {
+            // eslint-disable-next-line no-console
+            console.log(response2);
+          })
+          .catch((err) => {
+            // eslint-disable-next-line no-console
+            console.log(`error: ${err}`);
+          });
+        })
         .catch(e => next(e));
     })
     .catch(() => {
